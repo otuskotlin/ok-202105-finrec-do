@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: FinTrack
+  description: 'App to control your finances'
+  license:
+    name: MIT
+  version: 0.0.1
+servers:
+  - url: http://localhost/
+tags:
+  - name: transaction
+    description: Endpoints for financial transaction
+  - name: reg-transaction-settings
+    description: Endpoints for regular financial transaction settings
+paths:
+  /transaction/create:
+    post:
+      tags:
+        - transaction
+      summary: Create new transaction record
+      operationId: createTransaction
+      requestBody:
+        description: Transaction object that needs to be added to db
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTransactionResponse'
+  /transaction/read:
+    post:
+      tags:
+        - transaction
+      summary: Get transaction record by id
+      operationId: readTransaction
+      requestBody:
+        description: Object that contains id of needed transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadTransactionResponse'
+  /transaction/update:
+    post:
+      tags:
+        - transaction
+      summary: Update existing transaction record
+      operationId: updateTransaction
+      requestBody:
+        description: Transaction object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTransactionResponse'
+  /transaction/delete:
+    post:
+      tags:
+        - transaction
+      summary: Delete existing transaction record
+      operationId: deleteTransaction
+      requestBody:
+        description: Object that contains id of existing transaction that needs to be deleted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTransactionResponse'
+  /transaction/search:
+    post:
+      tags:
+        - transaction
+      summary: Search transactions by parameters
+      operationId: searchTransaction
+      requestBody:
+        description: Object with search parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchTransactionResponse'
+components:
+  schemas:
+
+    CreateTransactionRequest:
+      type: object
+
+    CreateTransactionResponse:
+      type: object
+
+    ReadTransactionRequest:
+      type: object
+
+    ReadTransactionResponse:
+      type: object
+
+    UpdateTransactionRequest:
+      type: object
+
+    UpdateTransactionResponse:
+      type: object
+
+    DeleteTransactionRequest:
+      type: object
+
+    DeleteTransactionResponse:
+      type: object
+
+    SearchTransactionRequest:
+      type: object
+
+    SearchTransactionResponse:
+      type: object
