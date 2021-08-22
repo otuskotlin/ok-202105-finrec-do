@@ -1,8 +1,8 @@
 package com.finyou.fintrack.backend
 
-import com.finance.fintrack.openapi.models.CreatableTransaction
-import com.finance.fintrack.openapi.models.CreateTransactionRequest
-import com.finance.fintrack.openapi.models.TransactionType
+import com.finyou.fintrack.openapi.models.CreatableTransaction
+import com.finyou.fintrack.openapi.models.CreateTransactionRequest
+import com.finyou.fintrack.openapi.models.TransactionType
 import com.finyou.fintrack.backend.context.FtContext
 import com.finyou.fintrack.backend.models.CurrencyModel
 import com.finyou.fintrack.backend.models.TransactionModel
