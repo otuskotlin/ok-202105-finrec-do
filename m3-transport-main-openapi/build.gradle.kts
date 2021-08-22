@@ -8,13 +8,13 @@ openApiGenerate {
     generatorName.set("kotlin")
     packageName.set(openapiGroup)
     apiPackage.set("$openapiGroup.api")
-    modelPackage.set("$openapiGroup.models")
+    modelPackage.set("$openapiGroup.com.finyou.fintrack.backend.models")
     invokerPackage.set("$openapiGroup.invoker")
     inputSpec.set("$rootDir/specs/spec-fintrack-api.yaml")
 
-    // We need just models
+    // We need just com.finyou.fintrack.backend.models
     globalProperties.apply {
-        put("models", "")
+        put("com.finyou.fintrack.backend.models", "")
         put("modelDocs", "false")
     }
 
