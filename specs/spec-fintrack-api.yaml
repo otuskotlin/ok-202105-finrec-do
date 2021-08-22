@@ -275,7 +275,7 @@ components:
         time:
           type: string
           description: Time of day (24h) when user create this transaction
-          format: 'hh-mm'
+          format: 'hh:mm'
         transactionType:
           $ref: '#/components/schemas/TransactionType'
         amount:

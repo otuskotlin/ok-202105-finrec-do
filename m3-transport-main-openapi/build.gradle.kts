@@ -33,10 +33,20 @@ sourceSets {
 
 dependencies {
     val jacksonVersion: String by project
+    val kotestVersion: String by project
 
     implementation(kotlin("stdlib"))
+
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation ("io.kotest:kotest-runner-junit5:$kotestVersion")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 tasks {
