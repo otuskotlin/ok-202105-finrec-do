@@ -234,7 +234,7 @@ components:
         mode:
           type: string
           default:
-            - prod
+            prod
           enum:
             - prod
             - test
