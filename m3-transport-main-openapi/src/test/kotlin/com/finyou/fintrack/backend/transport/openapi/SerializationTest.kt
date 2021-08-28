@@ -1,8 +1,10 @@
+package com.finyou.fintrack.backend.transport.openapi
+
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.finance.fintrack.openapi.models.BaseMessage
-import com.finance.fintrack.openapi.models.CreatableTransaction
-import com.finance.fintrack.openapi.models.CreateTransactionRequest
-import com.finance.fintrack.openapi.models.TransactionType
+import com.finyou.fintrack.openapi.models.BaseMessage
+import com.finyou.fintrack.openapi.models.CreatableTransaction
+import com.finyou.fintrack.openapi.models.CreateTransactionRequest
+import com.finyou.fintrack.openapi.models.TransactionType
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain

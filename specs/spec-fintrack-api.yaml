@@ -390,7 +390,7 @@ components:
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
           properties:
-            transactionId:
+            updateTransaction:
               $ref: '#/components/schemas/UpdatableTransaction'
             debug:
               allOf:

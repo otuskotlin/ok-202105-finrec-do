@@ -7,6 +7,7 @@ pluginManagement {
     plugins {
         kotlin("jvm") version kotlinVersion
         kotlin("multiplatform") version kotlinVersion
+        kotlin("plugin.serialization") version kotlinVersion
 
         id("org.openapi.generator") version openApiVersion
     }
@@ -17,3 +18,4 @@ include("m2l2-testing")
 include("m3-transport-main-openapi")
 include("m3-common")
 include("m3-transport-mapping-openapi")
+include("m3-transport-main-mp")

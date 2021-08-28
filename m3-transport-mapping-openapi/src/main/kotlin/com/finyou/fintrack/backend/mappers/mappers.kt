@@ -1,4 +1,4 @@
-package com.finyou.fintrack.backend
+package com.finyou.fintrack.backend.mappers
 
 import com.finyou.fintrack.openapi.models.CreatableTransaction
 import com.finyou.fintrack.openapi.models.CreateTransactionRequest
