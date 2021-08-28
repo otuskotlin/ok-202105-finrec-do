@@ -8,7 +8,8 @@ data class TransactionModel(
     val date: Long = Long.MIN_VALUE,
     val transactionType: TypeModel = TypeModel.NONE,
     val amount: Double = Double.MIN_VALUE,
-    val currency: CurrencyModel = CurrencyModel.NONE
+    val currency: CurrencyModel = CurrencyModel.NONE,
+    val permissions: MutableSet<PermissionModel> = mutableSetOf()
 ) {
     companion object {
         val NONE = TransactionModel()

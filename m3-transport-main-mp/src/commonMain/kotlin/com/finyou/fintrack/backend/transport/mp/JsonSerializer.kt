@@ -7,6 +7,7 @@ import kotlinx.serialization.modules.SerializersModule
 
 val jsonSerializer = Json {
     prettyPrint = true
+    classDiscriminator = "messageType"
     serializersModule = SerializersModule {
         polymorphic(BaseMessage::class) {
             subclass(InitTransactionRequest::class, InitTransactionRequest.serializer())

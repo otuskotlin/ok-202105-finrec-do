@@ -159,6 +159,8 @@ components:
       description: Base class for responses
       type: object
       properties:
+        requestId:
+          type: string
         result:
           type: string
           enum:
@@ -175,8 +177,7 @@ components:
       properties:
         lastId:
           description: Last fetched item id
-          type: integer
-          format: int32
+          type: string
         perPage:
           description: How many items shoul be present in response
           type: integer
@@ -186,6 +187,9 @@ components:
       description: Object for paging information in response
       type: object
       properties:
+        lastId:
+          description: Last fetched item id
+          type: string
         total:
           description: Total count of items
           type: integer
@@ -358,7 +362,7 @@ components:
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
           properties:
-            transactionId:
+            readTransactionId:
               type: string
             debug:
               allOf:
@@ -380,7 +384,7 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            createdTransaction:
+            readTransaction:
               $ref: '#/components/schemas/ResultTransaction'
 
     UpdateTransactionRequest:
@@ -411,7 +415,7 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            createdTransaction:
+            updatedTransaction:
               $ref: '#/components/schemas/ResultTransaction'
 
     DeleteTransactionRequest:
@@ -443,7 +447,7 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            createdTransaction:
+            deletedTransaction:
               $ref: '#/components/schemas/ResultTransaction'
 
     SearchTransactionRequest:
