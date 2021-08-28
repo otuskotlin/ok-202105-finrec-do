@@ -15,7 +15,8 @@ pluginManagement {
 
 include("common")
 include("m2l2-testing")
-include("m3-transport-main-openapi")
 include("m3-common")
+include("m3-transport-main-openapi")
 include("m3-transport-mapping-openapi")
 include("m3-transport-main-mp")
+include("m3-transport-mapping-mp")
