@@ -1,6 +1,6 @@
-package com.finyou.fintrack.backend.context
+package com.finyou.fintrack.backend.common.context
 
-import com.finyou.fintrack.backend.models.*
+import com.finyou.fintrack.backend.common.models.*
 
 data class FtContext(
     var onRequest: String = "",

@@ -3,11 +3,11 @@ package com.finyou.fintrack.backend.mappers
 import com.finyou.fintrack.openapi.models.CreatableTransaction
 import com.finyou.fintrack.openapi.models.CreateTransactionRequest
 import com.finyou.fintrack.openapi.models.TransactionType
-import com.finyou.fintrack.backend.context.FtContext
-import com.finyou.fintrack.backend.models.CurrencyModel
-import com.finyou.fintrack.backend.models.TransactionModel
-import com.finyou.fintrack.backend.models.TypeModel
-import com.finyou.fintrack.backend.models.UserIdModel
+import com.finyou.fintrack.backend.common.context.FtContext
+import com.finyou.fintrack.backend.common.models.CurrencyModel
+import com.finyou.fintrack.backend.common.models.TransactionModel
+import com.finyou.fintrack.backend.common.models.TypeModel
+import com.finyou.fintrack.backend.common.models.UserIdModel
 import java.util.*
 
 fun FtContext.setQuery(query: CreateTransactionRequest) {

@@ -1,4 +1,4 @@
-package com.finyou.fintrack.backend.models
+package com.finyou.fintrack.backend.common.models
 
 data class PaginatedRequestModel(
     val lastId: TransactionIdModel = TransactionIdModel.NONE,

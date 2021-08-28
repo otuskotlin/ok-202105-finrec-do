@@ -1,4 +1,4 @@
-package com.finyou.fintrack.backend.models
+package com.finyou.fintrack.backend.common.models
 
 @JvmInline
 value class CurrencyModel(val currency: String) {

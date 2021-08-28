@@ -1,4 +1,4 @@
-package com.finyou.fintrack.backend.models
+package com.finyou.fintrack.backend.common.models
 
 enum class PermissionModel {
     READ, UPDATE, DELETE
