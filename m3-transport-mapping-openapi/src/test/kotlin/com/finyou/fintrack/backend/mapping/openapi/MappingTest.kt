@@ -7,6 +7,8 @@ import com.finyou.fintrack.openapi.models.CreateTransactionRequest
 import com.finyou.fintrack.openapi.models.TransactionType
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import java.math.BigDecimal
+import java.time.Instant
 
 class MappingTest : ShouldSpec({
 
@@ -15,8 +17,7 @@ class MappingTest : ShouldSpec({
         createTransaction = CreatableTransaction(
             userId = "987654",
             name = "Coffee",
-            date = "22.08.2021",
-            time = "15:10",
+            date = "2021-08-22T15:10:00Z",
             transactionType = TransactionType.OUTCOME,
             amount = 2.75,
             currency = "USD"
@@ -29,9 +30,8 @@ class MappingTest : ShouldSpec({
         context.requestTransaction.userId shouldBe UserIdModel("987654")
         context.requestTransaction.name shouldBe "Coffee"
         context.requestTransaction.transactionType shouldBe TypeModel.OUTCOME
-        context.requestTransaction.amount shouldBe 2.75
-        context.requestTransaction.currency shouldBe CurrencyModel("USD")
-        context.requestTransaction.date shouldBe convertCreateDate(query.createTransaction?.date, query.createTransaction?.time)
+        context.requestTransaction.amountCurrency shouldBe AmountCurrencyModel(BigDecimal.valueOf(2.75),"USD")
+        context.requestTransaction.date shouldBe Instant.parse("2021-08-22T15:10:00Z")
     }
 
     val context = FtContext(
@@ -40,14 +40,12 @@ class MappingTest : ShouldSpec({
             id = FinTransactionIdModel("91009"),
             userId = UserIdModel("987654"),
             name = "Coffee",
-            date = 1629645000000,
+            date = Instant.parse("2021-08-22T00:00:00Z"),
             transactionType = TypeModel.OUTCOME,
-            amount = 2.75,
-            currency = CurrencyModel("USD"),
+            amountCurrency = AmountCurrencyModel(BigDecimal.valueOf(2.75), "USD"),
             permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)
         )
     )
-
 
     should("check mapping to transport") {
         val response = context.toCreateResponse()
@@ -58,7 +56,7 @@ class MappingTest : ShouldSpec({
         response.createdTransaction?.transactionType shouldBe TransactionType.OUTCOME
         response.createdTransaction?.amount shouldBe 2.75
         response.createdTransaction?.currency shouldBe "USD"
-        response.createdTransaction?.date shouldBe "22.08.2021"
+        response.createdTransaction?.date shouldBe "2021-08-22T00:00:00Z"
         response.createdTransaction?.permissions?.size shouldBe 2
     }
 })

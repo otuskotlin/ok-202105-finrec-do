@@ -18,8 +18,7 @@ class SerializationTest {
         updateTransaction = UpdatableTransaction(
             userId = "987654",
             name = "Coffee",
-            date = "22.08.2021",
-            time = "15:10",
+            date = "2021-08-22T15:10:00Z",
             transactionType = TransactionType.OUTCOME,
             amount = 2.75,
             currency = "USD",

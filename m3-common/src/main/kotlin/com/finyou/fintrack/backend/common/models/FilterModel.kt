@@ -1,10 +1,13 @@
 package com.finyou.fintrack.backend.common.models
 
+import java.math.BigDecimal
+import java.time.Instant
+
 data class FilterModel(
-    val dateStart: Long = Long.MIN_VALUE,
-    val dateEnd: Long = Long.MIN_VALUE,
-    val amountFrom: Double = Double.MIN_VALUE,
-    val amountTo: Double = Double.MIN_VALUE,
+    val dateStart: Instant = Instant.MIN,
+    val dateEnd: Instant = Instant.MIN,
+    val amountFrom: BigDecimal = BigDecimal.ZERO,
+    val amountTo: BigDecimal = BigDecimal.ZERO,
     val transactionType: TypeModel = TypeModel.NONE,
 ) {
     companion object {

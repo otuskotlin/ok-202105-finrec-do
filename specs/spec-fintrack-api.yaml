@@ -204,13 +204,13 @@ components:
       type: object
       properties:
         dateStart:
-          description: Search transactions after this date
+          description: Search transactions after this date (ISO format)
           type: string
-          format: 'dd.mm.yyyy'
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
         dateEnd:
-          description: Search transactions before this date
+          description: Search transactions before this date (ISO format)
           type: string
-          format: 'dd.mm.yyyy'
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
         amountFrom:
           description: Search transactions with amount more then this
           type: number
@@ -274,12 +274,8 @@ components:
           description: Optional description for transaction
         date:
           type: string
-          description: Date when user create this transaction
-          format: 'dd.mm.yyyy'
-        time:
-          type: string
-          description: Time of day (24h) when user create this transaction
-          format: 'hh:mm'
+          description: Date when user create this transaction (ISO format)
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
         transactionType:
           $ref: '#/components/schemas/TransactionType'
         amount:

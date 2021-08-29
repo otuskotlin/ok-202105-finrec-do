@@ -2,9 +2,10 @@ package com.finyou.fintrack.backend.mapping.mp
 
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.*
-import com.finyou.fintrack.backend.common.utils.Const
+import com.finyou.fintrack.backend.common.utils.doubleLet
 import com.finyou.fintrack.kmp.models.*
-import java.util.*
+import java.math.BigDecimal
+import java.time.Instant
 
 fun FtContext.setQuery(query: InitTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
@@ -41,10 +42,11 @@ private val CreatableTransaction.inner: FinTransactionModel
             userId = userId?.let { UserIdModel(it) } ?: UserIdModel.NONE,
             name = name ?: "",
             description = description ?: "",
-            date = convertCreateDate(date, time),
+            date = date?.let { Instant.parse(it) } ?: Instant.MIN,
             transactionType = transactionType?.inner ?: TypeModel.NONE,
-            amount = amount ?: Double.MIN_VALUE,
-            currency = currency?.let { CurrencyModel(it) } ?: CurrencyModel.NONE
+            amountCurrency = doubleLet(amount, currency) { safeAmount, safeCurrency ->
+                AmountCurrencyModel(BigDecimal.valueOf(safeAmount), safeCurrency)
+            } ?: AmountCurrencyModel.NONE
         )
     }
 
@@ -55,10 +57,11 @@ private val UpdatableTransaction.inner: FinTransactionModel
             userId = userId?.let { UserIdModel(it) } ?: UserIdModel.NONE,
             name = name ?: "",
             description = description ?: "",
-            date = convertCreateDate(date, time),
+            date = date?.let { Instant.parse(it) } ?: Instant.MIN,
             transactionType = transactionType?.inner ?: TypeModel.NONE,
-            amount = amount ?: Double.MIN_VALUE,
-            currency = currency?.let { CurrencyModel(it) } ?: CurrencyModel.NONE
+            amountCurrency = doubleLet(amount, currency) { safeAmount, safeCurrency ->
+                AmountCurrencyModel(BigDecimal.valueOf(safeAmount), safeCurrency)
+            } ?: AmountCurrencyModel.NONE
         )
     }
 
@@ -75,36 +78,3 @@ private val TransactionType.inner: TypeModel
         TransactionType.INCOME -> TypeModel.INCOME
         TransactionType.OUTCOME -> TypeModel.OUTCOME
     }
-
-internal fun convertCreateDate(date: String?, time: String?): Long {
-    val transactionDate = Calendar.getInstance().apply {
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-    }
-    date?.let { safeDate ->
-        val dateParts = safeDate.split(Const.DATE_SEPARATOR)
-        if (dateParts.size == 3) {
-            dateParts[0].toIntOrNull()?.let {
-                transactionDate.set(Calendar.DAY_OF_MONTH, it)
-            }
-            dateParts[1].toIntOrNull()?.let {
-                transactionDate.set(Calendar.MONTH, it - 1)
-            }
-            dateParts[2].toIntOrNull()?.let {
-                transactionDate.set(Calendar.YEAR, it)
-            }
-        }
-    }
-    time?.let { safeTime ->
-        val timeParts = safeTime.split(Const.TIME_SEPARATOR)
-        if (timeParts.size == 2) {
-            timeParts[0].toIntOrNull()?.let {
-                transactionDate.set(Calendar.HOUR_OF_DAY, it)
-            }
-            timeParts[1].toIntOrNull()?.let {
-                transactionDate.set(Calendar.MINUTE, it)
-            }
-        }
-    }
-    return transactionDate.timeInMillis
-}

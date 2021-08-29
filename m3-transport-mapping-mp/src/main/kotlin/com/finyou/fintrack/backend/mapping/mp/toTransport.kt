@@ -2,9 +2,8 @@ package com.finyou.fintrack.backend.mapping.mp
 
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.*
-import com.finyou.fintrack.backend.common.utils.Const
 import com.finyou.fintrack.kmp.models.*
-import java.util.*
+import java.time.Instant
 
 fun FtContext.toInitResponse() = InitTransactionResponse(
     requestId = onRequest,
@@ -69,11 +68,10 @@ private val FinTransactionModel.transport: ResultTransaction
         userId = userId.takeIf { it != UserIdModel.NONE }?.id,
         name = name.takeIf { it.isNotBlank() },
         description = description.takeIf { it.isNotBlank() },
-        date = date.takeIf { it > 0 }?.toTransportDate(),
-        time = date.takeIf { it > 0 }?.toTransportTime(),
+        date = date.takeIf { it.isAfter(Instant.EPOCH) }?.toString(),
         transactionType = transactionType.transport,
-        amount = amount.takeIf { it >= 0 },
-        currency = currency.currency.takeIf { it.isNotBlank() },
+        amount = amountCurrency.takeIf { it != AmountCurrencyModel.NONE }?.amount?.toDouble(),
+        currency = amountCurrency.takeIf { it != AmountCurrencyModel.NONE }?.currency,
         id = id.takeIf { it != FinTransactionIdModel.NONE }?.id,
         permissions = permissions.takeIf { it.isNotEmpty() }?.map { it.transport }?.toSet()
     )
@@ -91,25 +89,6 @@ private val PermissionModel.transport: TransactionPermission
         PermissionModel.UPDATE -> TransactionPermission.UPDATE
         PermissionModel.DELETE -> TransactionPermission.DELETE
     }
-
-internal fun Long.toTransportDate(): String {
-    val calendar = Calendar.getInstance().apply {
-        timeInMillis = this@toTransportDate
-    }
-    val day = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
-    val month = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
-    val year = String.format("%04d", calendar.get(Calendar.YEAR))
-    return "$day${Const.DATE_SEPARATOR}$month${Const.DATE_SEPARATOR}$year"
-}
-
-internal fun Long.toTransportTime(): String {
-    val calendar = Calendar.getInstance().apply {
-        timeInMillis = this@toTransportTime
-    }
-    val hour = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))
-    val minute = String.format("%02d", calendar.get(Calendar.MINUTE))
-    return "$hour${Const.TIME_SEPARATOR}$minute"
-}
 
 private val PaginatedResponseModel.transport: PaginatedResponse
     get() = PaginatedResponse(
