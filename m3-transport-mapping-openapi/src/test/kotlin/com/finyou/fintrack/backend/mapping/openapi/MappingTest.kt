@@ -36,8 +36,8 @@ class MappingTest : ShouldSpec({
 
     val context = FtContext(
         onRequest = "7474",
-        responseTransaction = TransactionModel(
-            id = TransactionIdModel("91009"),
+        responseTransaction = FinTransactionModel(
+            id = FinTransactionIdModel("91009"),
             userId = UserIdModel("987654"),
             name = "Coffee",
             date = 1629645000000,

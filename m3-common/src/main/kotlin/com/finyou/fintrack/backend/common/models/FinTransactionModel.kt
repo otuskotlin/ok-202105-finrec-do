@@ -1,7 +1,7 @@
 package com.finyou.fintrack.backend.common.models
 
-data class TransactionModel(
-    val id: TransactionIdModel = TransactionIdModel.NONE,
+data class FinTransactionModel(
+    val id: FinTransactionIdModel = FinTransactionIdModel.NONE,
     val userId: UserIdModel = UserIdModel.NONE,
     val name: String = "",
     val description: String = "",
@@ -12,6 +12,6 @@ data class TransactionModel(
     val permissions: MutableSet<PermissionModel> = mutableSetOf()
 ) {
     companion object {
-        val NONE = TransactionModel()
+        val NONE = FinTransactionModel()
     }
 }

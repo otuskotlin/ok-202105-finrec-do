@@ -15,7 +15,7 @@ fun FtContext.toInitResponse() = InitTransactionResponse(
 
 fun FtContext.toCreateResponse() = CreateTransactionResponse(
     requestId = onRequest,
-    createdTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport,
+    createdTransaction = responseTransaction.takeIf { it != FinTransactionModel.NONE }?.transport,
     errors = errors.transport,
     result = if (errors.isNotEmpty()) CreateTransactionResponse.Result.ERROR
     else CreateTransactionResponse.Result.SUCCESS
@@ -26,7 +26,7 @@ fun FtContext.toReadResponse() = ReadTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) ReadTransactionResponse.Result.ERROR
     else ReadTransactionResponse.Result.SUCCESS,
-    readTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
+    readTransaction = responseTransaction.takeIf { it != FinTransactionModel.NONE }?.transport
 )
 
 fun FtContext.toUpdateResponse() = UpdateTransactionResponse(
@@ -34,7 +34,7 @@ fun FtContext.toUpdateResponse() = UpdateTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) UpdateTransactionResponse.Result.ERROR
     else UpdateTransactionResponse.Result.SUCCESS,
-    updatedTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
+    updatedTransaction = responseTransaction.takeIf { it != FinTransactionModel.NONE }?.transport
 )
 
 fun FtContext.toDeleteResponse() = DeleteTransactionResponse(
@@ -42,7 +42,7 @@ fun FtContext.toDeleteResponse() = DeleteTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) DeleteTransactionResponse.Result.ERROR
     else DeleteTransactionResponse.Result.SUCCESS,
-    deletedTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
+    deletedTransaction = responseTransaction.takeIf { it != FinTransactionModel.NONE }?.transport
 )
 
 fun FtContext.toSearchResponse() = SearchTransactionResponse(
@@ -50,7 +50,7 @@ fun FtContext.toSearchResponse() = SearchTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) SearchTransactionResponse.Result.ERROR
     else SearchTransactionResponse.Result.SUCCESS,
-    foundItems = responseTransactions.takeIf { it.isNotEmpty() }?.filter { it != TransactionModel.NONE }
+    foundItems = responseTransactions.takeIf { it.isNotEmpty() }?.filter { it != FinTransactionModel.NONE }
         ?.map { it.transport },
     pagination = responsePage.takeIf { it != PaginatedResponseModel.NONE }?.transport
 )
@@ -64,7 +64,7 @@ private val ErrorModel.transport: ApiError
 private val List<ErrorModel>.transport: List<ApiError>?
     get() = takeIf { it.isNotEmpty() }?.filter { it != ErrorModel.NONE }?.map { it.transport }
 
-private val TransactionModel.transport: ResultTransaction
+private val FinTransactionModel.transport: ResultTransaction
     get() = ResultTransaction(
         userId = userId.takeIf { it != UserIdModel.NONE }?.id,
         name = name.takeIf { it.isNotBlank() },
@@ -74,7 +74,7 @@ private val TransactionModel.transport: ResultTransaction
         transactionType = transactionType.transport,
         amount = amount.takeIf { it >= 0 },
         currency = currency.currency.takeIf { it.isNotBlank() },
-        id = id.takeIf { it != TransactionIdModel.NONE }?.id,
+        id = id.takeIf { it != FinTransactionIdModel.NONE }?.id,
         permissions = permissions.takeIf { it.isNotEmpty() }?.map { it.transport }?.toSet()
     )
 
@@ -115,5 +115,5 @@ private val PaginatedResponseModel.transport: PaginatedResponse
     get() = PaginatedResponse(
         total = total.takeIf { it >= 0 },
         left = left.takeIf { it >= 0 },
-        lastId = lastId.takeIf { it != TransactionIdModel.NONE }?.id
+        lastId = lastId.takeIf { it != FinTransactionIdModel.NONE }?.id
     )

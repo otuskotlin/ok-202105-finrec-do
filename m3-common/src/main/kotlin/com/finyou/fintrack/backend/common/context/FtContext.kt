@@ -4,13 +4,13 @@ import com.finyou.fintrack.backend.common.models.*
 
 data class FtContext(
     var onRequest: String = "",
-    var requestTransactionId: TransactionIdModel = TransactionIdModel.NONE,
-    var requestTransaction: TransactionModel = TransactionModel.NONE,
-    var responseTransaction: TransactionModel = TransactionModel.NONE,
+    var requestTransactionId: FinTransactionIdModel = FinTransactionIdModel.NONE,
+    var requestTransaction: FinTransactionModel = FinTransactionModel.NONE,
+    var responseTransaction: FinTransactionModel = FinTransactionModel.NONE,
     var requestPage: PaginatedRequestModel = PaginatedRequestModel.NONE,
     var responsePage: PaginatedResponseModel = PaginatedResponseModel.NONE,
     var searchFilter: FilterModel = FilterModel.NONE,
-    var responseTransactions: MutableList<TransactionModel> = mutableListOf(),
+    var responseTransactions: MutableList<FinTransactionModel> = mutableListOf(),
     var errors: MutableList<ErrorModel> = mutableListOf(),
     var status: Status = Status.STARTED
 )

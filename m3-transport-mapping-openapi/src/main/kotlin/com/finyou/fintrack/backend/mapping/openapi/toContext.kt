@@ -12,22 +12,22 @@ fun FtContext.setQuery(query: InitTransactionRequest) = apply {
 
 fun FtContext.setQuery(query: CreateTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
-    requestTransaction = query.createTransaction?.inner ?: TransactionModel.NONE
+    requestTransaction = query.createTransaction?.inner ?: FinTransactionModel.NONE
 }
 
 fun FtContext.setQuery(query: ReadTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
-    requestTransactionId = TransactionIdModel(query.readTransactionId ?: "")
+    requestTransactionId = FinTransactionIdModel(query.readTransactionId ?: "")
 }
 
 fun FtContext.setQuery(query: UpdateTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
-    requestTransaction = query.updateTransaction?.inner ?: TransactionModel.NONE
+    requestTransaction = query.updateTransaction?.inner ?: FinTransactionModel.NONE
 }
 
 fun FtContext.setQuery(query: DeleteTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
-    requestTransactionId = TransactionIdModel(query.deleteTransactionId ?: "")
+    requestTransactionId = FinTransactionIdModel(query.deleteTransactionId ?: "")
 }
 
 fun FtContext.setQuery(query: SearchTransactionRequest) = apply {
@@ -35,9 +35,9 @@ fun FtContext.setQuery(query: SearchTransactionRequest) = apply {
     requestPage = query.pagination?.inner ?: PaginatedRequestModel.NONE
 }
 
-private val CreatableTransaction.inner: TransactionModel
+private val CreatableTransaction.inner: FinTransactionModel
     get() {
-        return TransactionModel(
+        return FinTransactionModel(
             userId = userId?.let { UserIdModel(it) } ?: UserIdModel.NONE,
             name = name ?: "",
             description = description ?: "",
@@ -48,10 +48,10 @@ private val CreatableTransaction.inner: TransactionModel
         )
     }
 
-private val UpdatableTransaction.inner: TransactionModel
+private val UpdatableTransaction.inner: FinTransactionModel
     get() {
-        return TransactionModel(
-            id = TransactionIdModel(id ?: ""),
+        return FinTransactionModel(
+            id = FinTransactionIdModel(id ?: ""),
             userId = userId?.let { UserIdModel(it) } ?: UserIdModel.NONE,
             name = name ?: "",
             description = description ?: "",
@@ -65,7 +65,7 @@ private val UpdatableTransaction.inner: TransactionModel
 private val PaginatedRequest.inner: PaginatedRequestModel
     get() {
         return PaginatedRequestModel(
-            lastId = TransactionIdModel(lastId ?: ""),
+            lastId = FinTransactionIdModel(lastId ?: ""),
             perPage = perPage ?: Int.MIN_VALUE
         )
     }
