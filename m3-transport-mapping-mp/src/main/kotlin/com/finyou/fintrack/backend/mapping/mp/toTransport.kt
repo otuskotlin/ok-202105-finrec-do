@@ -15,7 +15,7 @@ fun FtContext.toInitResponse() = InitTransactionResponse(
 
 fun FtContext.toCreateResponse() = CreateTransactionResponse(
     requestId = onRequest,
-    createdTransaction = responseTransaction.transport,
+    createdTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport,
     errors = errors.transport,
     result = if (errors.isNotEmpty()) CreateTransactionResponse.Result.ERROR
     else CreateTransactionResponse.Result.SUCCESS
@@ -26,7 +26,7 @@ fun FtContext.toReadResponse() = ReadTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) ReadTransactionResponse.Result.ERROR
     else ReadTransactionResponse.Result.SUCCESS,
-    readTransaction = responseTransaction.transport
+    readTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
 )
 
 fun FtContext.toUpdateResponse() = UpdateTransactionResponse(
@@ -34,7 +34,7 @@ fun FtContext.toUpdateResponse() = UpdateTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) UpdateTransactionResponse.Result.ERROR
     else UpdateTransactionResponse.Result.SUCCESS,
-    updatedTransaction = responseTransaction.transport
+    updatedTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
 )
 
 fun FtContext.toDeleteResponse() = DeleteTransactionResponse(
@@ -42,7 +42,7 @@ fun FtContext.toDeleteResponse() = DeleteTransactionResponse(
     errors = errors.transport,
     result = if (errors.isNotEmpty()) DeleteTransactionResponse.Result.ERROR
     else DeleteTransactionResponse.Result.SUCCESS,
-    deletedTransaction = responseTransaction.transport
+    deletedTransaction = responseTransaction.takeIf { it != TransactionModel.NONE }?.transport
 )
 
 fun FtContext.toSearchResponse() = SearchTransactionResponse(
@@ -62,7 +62,7 @@ private val ErrorModel.transport: ApiError
     )
 
 private val List<ErrorModel>.transport: List<ApiError>?
-    get() = takeIf { it.isNotEmpty() }?.map { it.transport }
+    get() = takeIf { it.isNotEmpty() }?.filter { it != ErrorModel.NONE }?.map { it.transport }
 
 private val TransactionModel.transport: ResultTransaction
     get() = ResultTransaction(
