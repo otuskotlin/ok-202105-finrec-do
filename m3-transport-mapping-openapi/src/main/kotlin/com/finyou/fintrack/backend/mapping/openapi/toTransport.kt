@@ -82,7 +82,7 @@ private val TypeModel.transport: TransactionType?
     get() = when (this) {
         TypeModel.INCOME -> TransactionType.INCOME
         TypeModel.OUTCOME -> TransactionType.OUTCOME
-        else -> null
+        TypeModel.NONE -> null
     }
 
 private val PermissionModel.transport: TransactionPermission
