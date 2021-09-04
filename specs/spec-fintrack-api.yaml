@@ -1,0 +1,483 @@
+openapi: 3.0.3
+info:
+  title: FinTrack
+  description: 'App to control your finances'
+  license:
+    name: MIT
+  version: 0.0.1
+servers:
+  - url: http://localhost/
+tags:
+  - name: transaction
+    description: Endpoints for financial transaction
+  - name: reg-transaction-settings
+    description: Endpoints for regular financial transaction settings
+paths:
+  /transaction/init:
+    post:
+      tags:
+        - transaction
+      summary: Initialization
+      operationId: initTransaction
+      requestBody:
+        description: Object for initialization on app start
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitTransactionRequest"
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitTransactionResponse"
+
+  /transaction/create:
+    post:
+      tags:
+        - transaction
+      summary: Create new transaction record
+      operationId: createTransaction
+      requestBody:
+        description: Transaction object that needs to be added to db
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTransactionResponse'
+  /transaction/read:
+    post:
+      tags:
+        - transaction
+      summary: Get transaction record by id
+      operationId: readTransaction
+      requestBody:
+        description: Object that contains id of needed transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadTransactionResponse'
+  /transaction/update:
+    post:
+      tags:
+        - transaction
+      summary: Update existing transaction record
+      operationId: updateTransaction
+      requestBody:
+        description: Transaction object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTransactionResponse'
+  /transaction/delete:
+    post:
+      tags:
+        - transaction
+      summary: Delete existing transaction record
+      operationId: deleteTransaction
+      requestBody:
+        description: Object that contains id of existing transaction that needs to be deleted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTransactionResponse'
+  /transaction/search:
+    post:
+      tags:
+        - transaction
+      summary: Search transactions by parameters
+      operationId: searchTransaction
+      requestBody:
+        description: Object with search parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchTransactionRequest'
+        required: true
+      responses:
+        200:
+          description: All responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchTransactionResponse'
+components:
+  schemas:
+
+    BaseMessage:
+      type: object
+      description: Base class for all requests and responses
+      properties:
+        messageType:
+          type: string
+          title: Discriminator
+          description: Contains class type for deserialization
+      discriminator:
+        propertyName: messageType
+
+    BaseRequest:
+      description: Base class for requests
+      type: object
+      properties:
+        requestId:
+          type: string
+
+    BaseResponse:
+      description: Base class for responses
+      type: object
+      properties:
+        requestId:
+          type: string
+        result:
+          type: string
+          enum:
+            - success
+            - error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+
+    PaginatedRequest:
+      description: Object to pass paging request information
+      type: object
+      properties:
+        lastId:
+          description: Last fetched item id
+          type: string
+        perPage:
+          description: How many items shoul be present in response
+          type: integer
+          format: int32
+
+    PaginatedResponse:
+      description: Object for paging information in response
+      type: object
+      properties:
+        lastId:
+          description: Last fetched item id
+          type: string
+        total:
+          description: Total count of items
+          type: integer
+          format: int32
+        left:
+          description: How many items left
+          type: integer
+          format: int32
+
+    SearchFilter:
+      description: Object with search parameters for searching transactions
+      type: object
+      properties:
+        dateStart:
+          description: Search transactions after this date (ISO format)
+          type: string
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
+        dateEnd:
+          description: Search transactions before this date (ISO format)
+          type: string
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
+        amountFrom:
+          description: Search transactions with amount more then this
+          type: number
+          format: double
+        amountTo:
+          description: Search transactions with amount lower then this
+          type: number
+          format: double
+        type:
+          $ref: '#/components/schemas/TransactionType'
+
+    ApiError:
+      description: Describe errors
+      type: object
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+
+    Debug:
+      description: Object for debuging requests
+      type: object
+      properties:
+        mode:
+          type: string
+          default:
+            prod
+          enum:
+            - prod
+            - test
+            - stub
+
+    TransactionType:
+      description: Enum of exeptable transaction type
+      type: string
+      enum:
+        - income
+        - outcome
+
+    TransactionPermission:
+      description: Permission for operations with transactions
+      type: string
+      enum:
+        - read
+        - update
+        - delete
+
+    CreatableTransaction:
+      description: Object for transaction in create request
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Owner user id of this transaction
+        name:
+          type: string
+          description: Short name of transaction
+        description:
+          type: string
+          description: Optional description for transaction
+        date:
+          type: string
+          description: Date when user create this transaction (ISO format)
+          format: 'YYYY-MM-DDThh:mm:ssTZD'
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        amount:
+          type: number
+          format: double
+          description: Amount of this transaction
+        currency:
+          type: string
+          description: Currency of this transaction
+
+    UpdatableTransaction:
+      description: Object for transaction in update request
+      allOf:
+        - $ref: '#/components/schemas/CreatableTransaction'
+        - type: object
+          properties:
+            id:
+              type: string
+
+    ResultTransaction:
+      description: Object for transaction in responses
+      allOf:
+        - $ref: '#/components/schemas/UpdatableTransaction'
+        - type: object
+          properties:
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/TransactionPermission'
+
+    InitTransactionRequest:
+      description: Entity for initialization request on app start
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+
+    InitTransactionResponse:
+      description: Entity for initialization response on app start
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+
+    CreateTransactionRequest:
+      description: Object for cteating new transaction request
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            createTransaction:
+              $ref: '#/components/schemas/CreatableTransaction'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/Debug'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - amountMissed
+                        - nameEmpty
+                        - errorDb
+
+    CreateTransactionResponse:
+      description: Object for response after cteating new transaction
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            createdTransaction:
+              $ref: '#/components/schemas/ResultTransaction'
+
+    ReadTransactionRequest:
+      description: Object for request transaction
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            readTransactionId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/Debug'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - idIsEmpty
+                        - idNotFound
+                        - errorDb
+
+    ReadTransactionResponse:
+      description: Object for response with requested transaction
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            readTransaction:
+              $ref: '#/components/schemas/ResultTransaction'
+
+    UpdateTransactionRequest:
+      description: Object to request transaction update
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            updateTransaction:
+              $ref: '#/components/schemas/UpdatableTransaction'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/Debug'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - transactionNotFound
+                        - errorDb
+
+    UpdateTransactionResponse:
+      description: Object for response with updated transaction
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            updatedTransaction:
+              $ref: '#/components/schemas/ResultTransaction'
+
+    DeleteTransactionRequest:
+      description: Object to request deletion of transaction
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            deleteTransactionId:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/Debug'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - idIsEmpty
+                        - idNotFound
+                        - errorDb
+
+    DeleteTransactionResponse:
+      description: Object for response with transaction after deletion
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            deletedTransaction:
+              $ref: '#/components/schemas/ResultTransaction'
+
+    SearchTransactionRequest:
+      description: Object for search transactions request
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/PaginatedRequest'
+            searchFilters:
+              $ref: '#/components/schemas/SearchFilter'
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/Debug'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - errorDb
+
+    SearchTransactionResponse:
+      description: Object for search transaction response
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/PaginatedResponse'
+            foundItems:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResultTransaction'

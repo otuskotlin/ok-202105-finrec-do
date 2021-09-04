@@ -11,11 +11,11 @@ FinTrack - приложение для учета и мониторинга ли
 ## Описание MVP
 ![](imgs/frontend_sketch.JPG)
 ### Функции (эндпониты)
-1. CRUDS (create, read, update, delete, search) для финансовой операции (доход или расход) (fin_operation)
-2. CRUDS (create, read, update, delete, search) для настройки автоматического добавления регулярных финансовых операций (доход или расход) (regular_fin_setting) (опционально)
+1. CRUDS (create, read, update, delete, search) для финансовой операции (доход или расход) (transaction)
+2. CRUDS (create, read, update, delete, search) для настройки автоматического добавления регулярных финансовых операций (доход или расход) (reg_transaction_setting) (опционально)
 
 Выборка статистики по всем пользователям с фильтрацией, сортировкой и аналитикой (мониторинг)
-### Описание сущности fin_operation
+### Описание сущности transaction
 1. Name
 2. Description (optional)
 3. Date
@@ -26,11 +26,11 @@ FinTrack - приложение для учета и мониторинга ли
 ### Enum OperationType
 1. Income
 2. Outcome
-### Описание сущности regular_fin_setting
+### Описание сущности reg_transaction_setting
 1. RegularityType (enum)
 2. Day (for Daily type can be omitted)
 3. Time (optional)
-4. FinOperationInfo
+4. TransactionInfo
     1. Name
     2. Description (optional)
     3. OperationType (enum)

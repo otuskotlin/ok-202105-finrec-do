@@ -3,7 +3,7 @@ plugins {
     kotlin("multiplatform") apply false
 }
 
-group = "com.finance.fintrack"
+group = "com.finyou.fintrack"
 version = "0.0.1"
 
 subprojects {
