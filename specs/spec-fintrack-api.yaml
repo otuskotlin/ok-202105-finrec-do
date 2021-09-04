@@ -154,6 +154,9 @@ components:
       properties:
         requestId:
           type: string
+        debug:
+          allOf:
+            - $ref: '#/components/schemas/Debug'
 
     BaseResponse:
       description: Base class for responses
@@ -243,6 +246,13 @@ components:
             - prod
             - test
             - stub
+        stubCase:
+          type: string
+          enum:
+            - success
+            - validation_error
+            - permission_error
+            - db_error
 
     TransactionType:
       description: Enum of exeptable transaction type
@@ -320,7 +330,7 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
 
     CreateTransactionRequest:
-      description: Object for cteating new transaction request
+      description: Object for creating new transaction request
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
@@ -328,21 +338,9 @@ components:
           properties:
             createTransaction:
               $ref: '#/components/schemas/CreatableTransaction'
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/Debug'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - amountMissed
-                        - nameEmpty
-                        - errorDb
 
     CreateTransactionResponse:
-      description: Object for response after cteating new transaction
+      description: Object for response after creating new transaction
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseResponse'
@@ -360,18 +358,6 @@ components:
           properties:
             readTransactionId:
               type: string
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/Debug'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - idIsEmpty
-                        - idNotFound
-                        - errorDb
 
     ReadTransactionResponse:
       description: Object for response with requested transaction
@@ -392,17 +378,6 @@ components:
           properties:
             updateTransaction:
               $ref: '#/components/schemas/UpdatableTransaction'
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/Debug'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - transactionNotFound
-                        - errorDb
 
     UpdateTransactionResponse:
       description: Object for response with updated transaction
@@ -423,18 +398,6 @@ components:
           properties:
             deleteTransactionId:
               type: string
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/Debug'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - idIsEmpty
-                        - idNotFound
-                        - errorDb
 
     DeleteTransactionResponse:
       description: Object for response with transaction after deletion
@@ -457,16 +420,6 @@ components:
               $ref: '#/components/schemas/PaginatedRequest'
             searchFilters:
               $ref: '#/components/schemas/SearchFilter'
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/Debug'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - errorDb
 
     SearchTransactionResponse:
       description: Object for search transaction response
