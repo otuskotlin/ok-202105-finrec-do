@@ -9,11 +9,13 @@ import java.time.Instant
 
 fun FtContext.setQuery(query: InitTransactionRequest) = apply {
     onRequest = query.requestId ?: ""
+    operation = FinTransactionOperation.INIT
     appMode = query.debug?.mode.inner
     stubCase = query.debug?.stubCase.inner
 }
 
 fun FtContext.setQuery(query: CreateTransactionRequest) = apply {
+    operation = FinTransactionOperation.CREATE
     onRequest = query.requestId ?: ""
     requestTransaction = query.createTransaction?.inner ?: FinTransactionModel.NONE
     appMode = query.debug?.mode.inner
@@ -21,6 +23,7 @@ fun FtContext.setQuery(query: CreateTransactionRequest) = apply {
 }
 
 fun FtContext.setQuery(query: ReadTransactionRequest) = apply {
+    operation = FinTransactionOperation.READ
     onRequest = query.requestId ?: ""
     requestTransactionId = FinTransactionIdModel(query.readTransactionId ?: "")
     appMode = query.debug?.mode.inner
@@ -28,6 +31,7 @@ fun FtContext.setQuery(query: ReadTransactionRequest) = apply {
 }
 
 fun FtContext.setQuery(query: UpdateTransactionRequest) = apply {
+    operation = FinTransactionOperation.UPDATE
     onRequest = query.requestId ?: ""
     requestTransaction = query.updateTransaction?.inner ?: FinTransactionModel.NONE
     appMode = query.debug?.mode.inner
@@ -35,6 +39,7 @@ fun FtContext.setQuery(query: UpdateTransactionRequest) = apply {
 }
 
 fun FtContext.setQuery(query: DeleteTransactionRequest) = apply {
+    operation = FinTransactionOperation.DELETE
     onRequest = query.requestId ?: ""
     requestTransactionId = FinTransactionIdModel(query.deleteTransactionId ?: "")
     appMode = query.debug?.mode.inner
@@ -42,6 +47,7 @@ fun FtContext.setQuery(query: DeleteTransactionRequest) = apply {
 }
 
 fun FtContext.setQuery(query: SearchTransactionRequest) = apply {
+    operation = FinTransactionOperation.SEARCH
     onRequest = query.requestId ?: ""
     requestPage = query.pagination?.inner ?: PaginatedRequestModel.NONE
     appMode = query.debug?.mode.inner

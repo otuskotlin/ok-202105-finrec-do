@@ -14,5 +14,6 @@ data class FtContext(
     var errors: MutableList<ErrorModel> = mutableListOf(),
     var status: Status = Status.STARTED,
     var appMode: AppModeModel = AppModeModel.PROD,
-    var stubCase: StubCaseModel = StubCaseModel.NONE
-    )
+    var stubCase: StubCaseModel = StubCaseModel.NONE,
+    var operation: FinTransactionOperation = FinTransactionOperation.NONE
+)
