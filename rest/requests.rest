@@ -1,0 +1,72 @@
+POST http://127.0.0.1:8080/transaction/init
+Content-Type: application/json
+
+{
+    "messageType": "InitTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" }
+}
+
+POST http://127.0.0.1:8080/transaction/create
+Content-Type: application/json
+
+{
+    "messageType": "CreateTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" },
+    "createTransaction": {
+        "userId": "12",
+        "name": "Coffee",
+        "date": "2021-09-02T10:15:00Z",
+        "transactionType": "outcome",
+        "amount": 1.2,
+        "currency": "USD"
+    }
+}
+
+
+POST http://127.0.0.1:8080/transaction/read
+Content-Type: application/json
+
+{
+    "messageType": "ReadTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" },
+    "readTransactionId": "322"
+}
+
+POST http://127.0.0.1:8080/transaction/update
+Content-Type: application/json
+
+{
+    "messageType": "UpdateTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" },
+    "updateTransaction": {
+        "id": "8989",
+        "userId": "12",
+        "name": "Coffee",
+        "date": "2021-09-02T10:15:00Z",
+        "transactionType": "outcome",
+        "amount": 1.2,
+        "currency": "USD"
+    }
+}
+
+POST http://127.0.0.1:8080/transaction/delete
+Content-Type: application/json
+
+{
+    "messageType": "DeleteTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" },
+     "deleteTransactionId": "322"
+}
+
+POST http://127.0.0.1:8080/transaction/search
+Content-Type: application/json
+
+{
+    "messageType": "SearchTransactionRequest", "requestId": "2356", "debug": { "mode": "stub", "stubCase": "success" },
+    "pagination": {
+        "lastId": "865",
+        "perPage": 20
+    },
+    "searchFilters": {
+        "dateStart": "2021-02-01T00:00:00Z",
+        "dateEnd": "2021-02-01T00:00:00Z",
+        "amountFrom": 0.0,
+        "amountTo": 20.0,
+        "type": "outcome"
+    }
+}
