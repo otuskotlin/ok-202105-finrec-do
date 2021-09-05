@@ -50,9 +50,19 @@ fun FtContext.setQuery(query: SearchTransactionRequest) = apply {
     operation = FinTransactionOperation.SEARCH
     onRequest = query.requestId ?: ""
     requestPage = query.pagination?.inner ?: PaginatedRequestModel.NONE
+    searchFilter = query.searchFilters?.inner ?: FilterModel.NONE
     appMode = query.debug?.mode.inner
     stubCase = query.debug?.stubCase.inner
 }
+
+private val SearchFilter.inner: FilterModel
+    get() = FilterModel(
+        dateStart = dateStart?.let { Instant.parse(it) } ?: Instant.MIN,
+        dateEnd = dateEnd?.let { Instant.parse(it) } ?: Instant.MIN,
+        amountFrom = amountFrom?.let { BigDecimal.valueOf(it) } ?: BigDecimal.ZERO,
+        amountTo = amountTo?.let { BigDecimal.valueOf(it) } ?: BigDecimal.ZERO,
+        transactionType = type?.inner ?: TypeModel.NONE
+    )
 
 private val CreatableTransaction.inner: FinTransactionModel
     get() {
