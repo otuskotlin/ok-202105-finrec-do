@@ -5,9 +5,12 @@ import java.time.Instant
 import kotlin.random.Random
 
 object StubTransactions {
+    const val id = "441184"
+    const val userId = "123"
+
     private val incomeTransaction = FinTransactionModel(
-        id = FinTransactionIdModel(id = "445684"),
-        userId = UserIdModel(id = "123"),
+        id = FinTransactionIdModel(id = id),
+        userId = UserIdModel(id = userId),
         name = "Salary",
         description = "Monthly salary",
         date = Instant.now().minusSeconds(50000L),
@@ -19,8 +22,8 @@ object StubTransactions {
         permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)
     )
     private val outcomeTransaction = FinTransactionModel(
-        id = FinTransactionIdModel(id = "441184"),
-        userId = UserIdModel(id = "123"),
+        id = FinTransactionIdModel(id = id),
+        userId = UserIdModel(id = userId),
         name = "TV",
         description = "TV Samsung 55\"",
         date = Instant.now().minusSeconds(5000L),

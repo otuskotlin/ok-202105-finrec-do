@@ -3,9 +3,7 @@ package com.finyou.fintrack.backend.app.spring.controller
 import com.finyou.fintrack.backend.app.spring.service.FinTransactionService
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.mapping.openapi.*
-import com.finyou.fintrack.openapi.models.CreateTransactionRequest
-import com.finyou.fintrack.openapi.models.DeleteTransactionRequest
-import com.finyou.fintrack.openapi.models.SearchTransactionRequest
+import com.finyou.fintrack.openapi.models.*
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,7 +16,7 @@ class FinTransactionController(
 ) {
 
     @PostMapping("init")
-    fun init(@RequestBody initTransactionRequest: CreateTransactionRequest) =
+    fun init(@RequestBody initTransactionRequest: InitTransactionRequest) =
         FtContext().setQuery(initTransactionRequest).let {
             service.init(it)
         }.toInitResponse()
@@ -30,13 +28,13 @@ class FinTransactionController(
         }.toCreateResponse()
 
     @PostMapping("read")
-    fun readFinTransaction(@RequestBody readTransactionRequest: CreateTransactionRequest) =
+    fun readFinTransaction(@RequestBody readTransactionRequest: ReadTransactionRequest) =
         FtContext().setQuery(readTransactionRequest).let {
             service.read(it)
         }.toReadResponse()
 
     @PostMapping("update")
-    fun updateFinTransaction(@RequestBody updateTransactionRequest: CreateTransactionRequest) =
+    fun updateFinTransaction(@RequestBody updateTransactionRequest: UpdateTransactionRequest) =
         FtContext().setQuery(updateTransactionRequest).let {
             service.update(it)
         }.toUpdateResponse()
