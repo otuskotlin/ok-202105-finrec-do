@@ -1,0 +1,31 @@
+service: fintrack
+
+provider:
+  name: aws
+  runtime: java11
+  lambdaHashingVersion: 20201221
+
+package:
+  artifact: ${env:ARTIFACT}
+
+functions:
+  createTransaction:
+    handler: com.finyou.fintrack.backend.app.serverless.handlers.CreateTransactionHandler
+    event:
+      - http post /transaction/create
+  readTransaction:
+    handler: com.finyou.fintrack.backend.app.serverless.handlers.ReadTransactionHandler
+    event:
+      - http post /transaction/read
+  updateTransaction:
+    handler: com.finyou.fintrack.backend.app.serverless.handlers.UpdateTransactionHandler
+    event:
+      - http post /transaction/update
+  deleteTransaction:
+    handler: com.finyou.fintrack.backend.app.serverless.handlers.DeleteTransactionHandler
+    event:
+      - http post /transaction/delete
+  searchTransaction:
+    handler: com.finyou.fintrack.backend.app.serverless.handlers.SearchTransactionHandler
+    event:
+      - http post /transaction/search
