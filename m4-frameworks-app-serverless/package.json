@@ -1,0 +1,7 @@
+{
+  "name": "com.finyou.fintrack.backend.app.serverless",
+  "version": "1.0.0",
+  "dependencies": {
+    "serverless": "^2.55.0"
+  }
+}
