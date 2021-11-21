@@ -4,10 +4,13 @@ import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.FinTransactionOperation
 import com.finyou.fintrack.backend.cor.common.cor.ICorExec
 import com.finyou.fintrack.backend.cor.common.handlers.chain
+import com.finyou.fintrack.backend.logic.chains.helpers.onValidationErrorHandle
 import com.finyou.fintrack.backend.logic.chains.stubs.finReadStub
 import com.finyou.fintrack.backend.logic.workers.chainFinishWorker
 import com.finyou.fintrack.backend.logic.workers.chainInitWorker
 import com.finyou.fintrack.backend.logic.workers.checkOperationWorker
+import com.finyou.fintrack.backend.validation.cor.workers.validation
+import com.finyou.fintrack.backend.validation.validators.ValidatorStringNotEmpty
 
 internal object FinRead: ICorExec<FtContext> by chain<FtContext>({
     checkOperationWorker(
@@ -15,7 +18,13 @@ internal object FinRead: ICorExec<FtContext> by chain<FtContext>({
         targetOperation = FinTransactionOperation.READ,
     )
     chainInitWorker(title = "Chain init")
-    // TODO: Validation
+    validation {
+        errorHandler { this.onValidationErrorHandle(it) }
+        validate<String?> {
+            on { this.requestTransactionId.id }
+            validator(ValidatorStringNotEmpty(field = "requestTransactionId"))
+        }
+    }
 
     finReadStub(title = "READ stubCase handling")
 

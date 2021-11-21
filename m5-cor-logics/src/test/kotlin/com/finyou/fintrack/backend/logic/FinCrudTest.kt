@@ -2,10 +2,7 @@ package com.finyou.fintrack.backend.logic
 
 import com.finyou.fintrack.backend.common.context.CorStatus
 import com.finyou.fintrack.backend.common.context.FtContext
-import com.finyou.fintrack.backend.common.models.FilterModel
-import com.finyou.fintrack.backend.common.models.FinTransactionIdModel
-import com.finyou.fintrack.backend.common.models.FinTransactionOperation
-import com.finyou.fintrack.backend.common.models.StubCaseModel
+import com.finyou.fintrack.backend.common.models.*
 import com.finyou.fintrack.backend.stubs.StubTransactions
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -98,6 +95,7 @@ class FinCrudTest : StringSpec ({
     "SEARCH success" {
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
+            requestPage = PaginatedRequestModel(lastId = FinTransactionIdModel("123")),
             searchFilter = FilterModel(),
             operation = FinTransactionOperation.SEARCH
         )
