@@ -21,4 +21,8 @@ data class FtContext(
         if (failingStatus) status = CorStatus.FAILING
         errors.add(error)
     }
+
+    fun addError(error: Throwable, failingStatus: Boolean = true) = apply {
+        addError(ErrorModel(message = error.message ?: "Error occurred"), failingStatus)
+    }
 }

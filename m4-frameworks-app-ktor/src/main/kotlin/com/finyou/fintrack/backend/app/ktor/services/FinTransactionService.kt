@@ -1,64 +1,46 @@
 package com.finyou.fintrack.backend.app.ktor.services
 
 import com.finyou.fintrack.backend.common.context.FtContext
-import com.finyou.fintrack.backend.common.models.FinTransactionIdModel
-import com.finyou.fintrack.backend.common.models.PaginatedResponseModel
-import com.finyou.fintrack.backend.stubs.StubTransactions
+import com.finyou.fintrack.backend.logic.FinTransactionCrud
+import com.finyou.fintrack.backend.mapping.openapi.*
+import com.finyou.fintrack.openapi.models.*
 
-class FinTransactionService {
+class FinTransactionService(
+    private val crud: FinTransactionCrud
+) {
 
-    fun init(context: FtContext): FtContext {
-        return context
+    fun init(context: FtContext, request: InitTransactionRequest): InitTransactionResponse {
+        context.setQuery(request)
+        return context.toInitResponse()
     }
 
-    fun create(context: FtContext): FtContext {
-        val createdTransaction = context.requestTransaction.apply {
-            id = FinTransactionIdModel(StubTransactions.id)
-        }
-        return context.apply {
-            responseTransaction = createdTransaction
-        }
+    suspend fun create(context: FtContext, request: CreateTransactionRequest): CreateTransactionResponse {
+        crud.create(context.setQuery(request))
+        return context.toCreateResponse()
     }
 
-    fun read(context: FtContext): FtContext {
-        val readTransaction = StubTransactions.getStub {
-            id = context.requestTransactionId
-        }
-        return context.apply {
-            responseTransaction = readTransaction
-        }
+    suspend fun read(context: FtContext, request: ReadTransactionRequest): ReadTransactionResponse {
+        crud.read(context.setQuery(request))
+        return context.toReadResponse()
     }
 
-    fun update(context: FtContext): FtContext {
-        val updatedTransaction = context.requestTransaction
-        return context.apply {
-            responseTransaction = updatedTransaction
-        }
+    suspend fun update(context: FtContext, request: UpdateTransactionRequest): UpdateTransactionResponse {
+        crud.update(context.setQuery(request))
+        return context.toUpdateResponse()
     }
 
-    fun delete(context: FtContext): FtContext {
-        val deletedTransaction = StubTransactions.getStub {
-            id = FinTransactionIdModel(StubTransactions.id)
-        }
-        return context.apply {
-            responseTransaction = deletedTransaction
-        }
+    suspend fun delete(context: FtContext, request: DeleteTransactionRequest): DeleteTransactionResponse {
+        crud.delete(context.setQuery(request))
+        return context.toDeleteResponse()
     }
 
-    fun search(context: FtContext): FtContext {
-        val items = mutableListOf(
-            StubTransactions.getStub(),
-            StubTransactions.getStub(),
-            StubTransactions.getStub(),
-        )
-        val responsePagination = PaginatedResponseModel(
-            lastId = FinTransactionIdModel(id = StubTransactions.id),
-            total = 70,
-            left = 50
-        )
-        return context.apply {
-            responseTransactions = items
-            responsePage = responsePagination
-        }
+    suspend fun search(context: FtContext, request: SearchTransactionRequest): SearchTransactionResponse {
+        crud.search(context.setQuery(request))
+        return context.toSearchResponse()
+    }
+
+    fun errorAd(context: FtContext, e: Throwable): BaseMessage {
+        context.addError(e)
+        return context.toInitResponse()
     }
 }

@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":m3-transport-main-openapi"))
     implementation(project(":m3-transport-mapping-openapi"))
     implementation(project(":m4-stubs"))
+    implementation(project(":m5-cor-logics"))
 }
 
 tasks.withType<Test> {

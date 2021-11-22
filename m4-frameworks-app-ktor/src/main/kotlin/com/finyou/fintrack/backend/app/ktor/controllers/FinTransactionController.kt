@@ -2,50 +2,73 @@ package com.finyou.fintrack.backend.app.ktor.controllers
 
 import com.finyou.fintrack.backend.app.ktor.services.FinTransactionService
 import com.finyou.fintrack.backend.common.context.FtContext
-import com.finyou.fintrack.backend.mapping.openapi.*
 import com.finyou.fintrack.openapi.models.*
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 
 suspend fun ApplicationCall.init(service: FinTransactionService) {
-    val initTransactionRequest = receive<InitTransactionRequest>()
-    respond(FtContext().setQuery(initTransactionRequest).let {
-        service.init(it)
-    }.toInitResponse())
+    val request = receive<InitTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.init(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as InitTransactionResponse
+    }
+    respond(response)
 }
 
 suspend fun ApplicationCall.createFinTransaction(service: FinTransactionService) {
-    val createTransactionRequest = receive<CreateTransactionRequest>()
-    respond(FtContext().setQuery(createTransactionRequest).let {
-        service.create(it)
-    }.toCreateResponse())
+    val request = receive<CreateTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.create(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as CreateTransactionResponse
+    }
+    respond(response)
 }
 
 suspend fun ApplicationCall.readFinTransaction(service: FinTransactionService) {
-    val readTransactionRequest = receive<ReadTransactionRequest>()
-    respond(FtContext().setQuery(readTransactionRequest).let {
-        service.read(it)
-    }.toReadResponse())
+    val request = receive<ReadTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.read(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as CreateTransactionResponse
+    }
+    respond(response)
 }
 
 suspend fun ApplicationCall.updateFinTransaction(service: FinTransactionService) {
-    val updateTransactionRequest = receive<UpdateTransactionRequest>()
-    respond(FtContext().setQuery(updateTransactionRequest).let {
-        service.update(it)
-    }.toUpdateResponse())
+    val request = receive<UpdateTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.update(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as UpdateTransactionResponse
+    }
+    respond(response)
 }
 
 suspend fun ApplicationCall.deleteFinTransaction(service: FinTransactionService) {
-    val deleteTransactionRequest = receive<DeleteTransactionRequest>()
-    respond(FtContext().setQuery(deleteTransactionRequest).let {
-        service.delete(it)
-    }.toDeleteResponse())
+    val request = receive<DeleteTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.delete(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as DeleteTransactionResponse
+    }
+    respond(response)
 }
 
 suspend fun ApplicationCall.searchFinTransaction(service: FinTransactionService) {
-    val searchTransactionRequest = receive<SearchTransactionRequest>()
-    respond(FtContext().setQuery(searchTransactionRequest).let {
-        service.search(it)
-    }.toSearchResponse())
+    val request = receive<SearchTransactionRequest>()
+    val context = FtContext()
+    val response = try {
+        service.search(context, request)
+    } catch (e: Throwable) {
+        service.errorAd(context, e) as SearchTransactionResponse
+    }
+    respond(response)
 }
