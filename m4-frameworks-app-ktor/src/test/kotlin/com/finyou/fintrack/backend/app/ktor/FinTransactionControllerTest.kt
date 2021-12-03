@@ -98,7 +98,10 @@ class FinTransactionControllerTest : FunSpec({
     }
 
     test("search transaction request") {
-        val request = SearchTransactionRequest(debug = stub)
+        val request = SearchTransactionRequest(
+            pagination = PaginatedRequest(lastId = StubTransactions.id),
+            debug = stub,
+        )
 
         withMyTestApplication {
             handleJsonPostRequest("transaction/search", request).apply {
@@ -136,4 +139,4 @@ val updatableTransaction = UpdatableTransaction(
     currency = "USD"
 )
 
-val stub = Debug(mode = Debug.Mode.STUB)
+val stub = Debug(mode = Debug.Mode.STUB, stubCase = Debug.StubCase.SUCCESS)

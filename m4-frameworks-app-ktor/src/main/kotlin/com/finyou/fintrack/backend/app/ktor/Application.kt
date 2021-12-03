@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.finyou.fintrack.backend.app.ktor.controllers.*
 import com.finyou.fintrack.backend.app.ktor.services.FinTransactionService
+import com.finyou.fintrack.backend.logic.FinTransactionCrud
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -41,7 +42,8 @@ fun Application.module(testing: Boolean = false) {
             writerWithDefaultPrettyPrinter()
         }
     }
-    val service = FinTransactionService()
+    val crud = FinTransactionCrud()
+    val service = FinTransactionService(crud)
 
     routing {
         get("/") {

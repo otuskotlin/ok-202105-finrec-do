@@ -12,8 +12,17 @@ data class FtContext(
     var searchFilter: FilterModel = FilterModel.NONE,
     var responseTransactions: MutableList<FinTransactionModel> = mutableListOf(),
     var errors: MutableList<ErrorModel> = mutableListOf(),
-    var status: Status = Status.STARTED,
+    var status: CorStatus = CorStatus.NONE,
     var appMode: AppModeModel = AppModeModel.PROD,
     var stubCase: StubCaseModel = StubCaseModel.NONE,
     var operation: FinTransactionOperation = FinTransactionOperation.NONE
-)
+) {
+    fun addError(error: ErrorModel, failingStatus: Boolean = true) = apply {
+        if (failingStatus) status = CorStatus.FAILING
+        errors.add(error)
+    }
+
+    fun addError(error: Throwable, failingStatus: Boolean = true) = apply {
+        addError(ErrorModel(message = error.message ?: "Error occurred"), failingStatus)
+    }
+}

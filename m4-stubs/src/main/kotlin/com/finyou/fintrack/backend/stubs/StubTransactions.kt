@@ -6,11 +6,14 @@ import kotlin.random.Random
 
 object StubTransactions {
     const val id = "441184"
+    val idModel = FinTransactionIdModel(id)
+    val permissionsDefault = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE, PermissionModel.DELETE)
     const val userId = "123"
+    val userIdModel = UserIdModel(id = userId)
 
     private val incomeTransaction = FinTransactionModel(
-        id = FinTransactionIdModel(id = id),
-        userId = UserIdModel(id = userId),
+        id = idModel,
+        userId = userIdModel,
         name = "Salary",
         description = "Monthly salary",
         date = Instant.now().minusSeconds(50000L),
@@ -22,8 +25,8 @@ object StubTransactions {
         permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)
     )
     private val outcomeTransaction = FinTransactionModel(
-        id = FinTransactionIdModel(id = id),
-        userId = UserIdModel(id = userId),
+        id = idModel,
+        userId = userIdModel,
         name = "TV",
         description = "TV Samsung 55\"",
         date = Instant.now().minusSeconds(5000L),
@@ -32,7 +35,7 @@ object StubTransactions {
             amount = 1200.toBigDecimal(),
             currency = "USD"
         ),
-        permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE, PermissionModel.DELETE)
+        permissions = permissionsDefault
     )
 
     private val randomTransaction: FinTransactionModel
@@ -41,6 +44,12 @@ object StubTransactions {
     fun getStub(model: (FinTransactionModel.() -> Unit)? = null) = randomTransaction.also { stub ->
         model?.let { stub.apply(it) }
     }
+
+    fun getStubs() = mutableListOf(
+        getStub { id = FinTransactionIdModel("45646") },
+        getStub { id = FinTransactionIdModel("123") },
+        getStub { id = FinTransactionIdModel("7899") }
+    )
 
     fun FinTransactionModel.update(transaction: FinTransactionModel) = apply {
         name = transaction.name
