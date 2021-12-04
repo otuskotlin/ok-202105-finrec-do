@@ -15,7 +15,9 @@ data class FtContext(
     var status: CorStatus = CorStatus.NONE,
     var appMode: AppModeModel = AppModeModel.PROD,
     var stubCase: StubCaseModel = StubCaseModel.NONE,
-    var operation: FinTransactionOperation = FinTransactionOperation.NONE
+    var operation: FinTransactionOperation = FinTransactionOperation.NONE,
+
+    val userSession: IUserSession<*, *> = EmptySession,
 ) {
     fun addError(error: ErrorModel, failingStatus: Boolean = true) = apply {
         if (failingStatus) status = CorStatus.FAILING

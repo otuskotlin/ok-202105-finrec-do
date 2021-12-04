@@ -43,4 +43,13 @@ class FinTransactionService(
         context.addError(e)
         return context.toInitResponse()
     }
+
+    fun initWs(context: FtContext): BaseMessage {
+        // TODO add logic to init ws
+        return context.toInitResponse()
+    }
+
+    fun wsDisconnected(context: FtContext) {
+        // TODO add logic to disconnect ws
+    }
 }
