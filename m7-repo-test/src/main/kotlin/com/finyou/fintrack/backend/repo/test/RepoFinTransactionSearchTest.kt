@@ -1,4 +1,4 @@
-package com.finyou.fintrack.backend.repoTest
+package com.finyou.fintrack.backend.repo.test
 
 import com.finyou.fintrack.backend.common.models.ErrorModel
 import com.finyou.fintrack.backend.common.models.FinTransactionModel
