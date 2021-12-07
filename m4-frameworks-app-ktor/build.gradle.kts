@@ -27,6 +27,7 @@ dependencies {
     implementation(ktor("server-netty"))
     implementation(ktor("server-core"))
     implementation(ktor("jackson"))
+    implementation(ktor("websockets"))
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 

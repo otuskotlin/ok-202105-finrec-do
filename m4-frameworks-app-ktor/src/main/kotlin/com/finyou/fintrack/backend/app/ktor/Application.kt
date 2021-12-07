@@ -2,7 +2,9 @@ package com.finyou.fintrack.backend.app.ktor
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.finyou.fintrack.backend.app.ktor.controllers.*
+import com.finyou.fintrack.backend.app.ktor.models.KtorUserSession
 import com.finyou.fintrack.backend.app.ktor.services.FinTransactionService
 import com.finyou.fintrack.backend.logic.FinTransactionCrud
 import io.ktor.application.*
@@ -13,6 +15,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.websocket.*
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
@@ -42,8 +45,12 @@ fun Application.module(testing: Boolean = false) {
             writerWithDefaultPrettyPrinter()
         }
     }
+    install(WebSockets)
+
     val crud = FinTransactionCrud()
     val service = FinTransactionService(crud)
+    val objectMapper = jacksonObjectMapper()
+    val wsUserSessions = mutableSetOf<KtorUserSession>()
 
     routing {
         get("/") {
@@ -69,5 +76,6 @@ fun Application.module(testing: Boolean = false) {
                 call.searchFinTransaction(service)
             }
         }
+        webSocket("ws") { handleSession(objectMapper, service, wsUserSessions) }
     }
 }
