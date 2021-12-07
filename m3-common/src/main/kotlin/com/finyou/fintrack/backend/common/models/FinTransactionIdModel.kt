@@ -5,4 +5,6 @@ value class FinTransactionIdModel(val id: String) {
     companion object {
         val NONE = FinTransactionIdModel("")
     }
+
+    override fun toString() = id
 }
