@@ -7,15 +7,15 @@ class CorChainDsl<T>(
     override var title: String = "",
     override var description: String = "",
     private val workers: MutableList<ICorExecDsl<T>> = mutableListOf(),
-    private var blockOn: T.() -> Boolean = { true },
-    private var blockExcept: T.(Throwable) -> Unit = { }
+    private var blockOn: suspend T.() -> Boolean = { true },
+    private var blockExcept: suspend T.(Throwable) -> Unit = { }
 ) : ICorChainDsl<T> {
 
-    override fun on(function: T.() -> Boolean) {
+    override fun on(function: suspend T.() -> Boolean) {
         blockOn = function
     }
 
-    override fun except(function: T.(Throwable) -> Unit) {
+    override fun except(function: suspend T.(Throwable) -> Unit) {
         blockExcept = function
     }
 
@@ -36,8 +36,8 @@ class CorChain<T>(
     val title: String,
     val description: String,
     val workers: List<ICorExec<T>>,
-    val blockOn: T.() -> Boolean,
-    val blockExcept: T.(Throwable) -> Unit
+    val blockOn: suspend T.() -> Boolean,
+    val blockExcept: suspend T.(Throwable) -> Unit
 ) : ICorWorker<T> {
     override suspend fun on(ctx: T): Boolean = blockOn(ctx)
     override suspend fun except(ctx: T, e: Throwable) = blockExcept(ctx, e)

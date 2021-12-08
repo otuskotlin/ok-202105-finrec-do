@@ -6,9 +6,11 @@ import com.finyou.fintrack.backend.cor.common.cor.ICorExec
 import com.finyou.fintrack.backend.cor.common.handlers.chain
 import com.finyou.fintrack.backend.logic.chains.helpers.onValidationErrorHandle
 import com.finyou.fintrack.backend.logic.chains.stubs.finCreateStub
+import com.finyou.fintrack.backend.logic.workers.*
 import com.finyou.fintrack.backend.logic.workers.chainFinishWorker
 import com.finyou.fintrack.backend.logic.workers.chainInitWorker
 import com.finyou.fintrack.backend.logic.workers.checkOperationWorker
+import com.finyou.fintrack.backend.logic.workers.chooseDb
 import com.finyou.fintrack.backend.validation.cor.workers.validation
 import com.finyou.fintrack.backend.validation.validators.ValidatorAmountPositive
 import com.finyou.fintrack.backend.validation.validators.ValidatorStringNotEmpty
@@ -22,6 +24,7 @@ internal object FinCreate: ICorExec<FtContext> by chain<FtContext>({
         targetOperation = FinTransactionOperation.CREATE,
     )
     chainInitWorker(title = "Chain init")
+    chooseDb(title = "Choose DB or stub")
     validation {
         errorHandler { this.onValidationErrorHandle(it) }
         validate<String?> {
@@ -48,7 +51,7 @@ internal object FinCreate: ICorExec<FtContext> by chain<FtContext>({
 
     finCreateStub(title = "CREATE stubCase handling")
 
-    // TODO: Business logic, DB
+    repoCreate(title = "Save object to DB")
 
     chainFinishWorker(title = "Chain finishing")
 }).build()

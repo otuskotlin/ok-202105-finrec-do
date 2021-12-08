@@ -1,9 +1,6 @@
 package com.finyou.fintrack.backend.repo.test
 
-import com.finyou.fintrack.backend.common.models.ErrorModel
-import com.finyou.fintrack.backend.common.models.FinTransactionModel
-import com.finyou.fintrack.backend.common.models.TypeModel
-import com.finyou.fintrack.backend.common.models.UserIdModel
+import com.finyou.fintrack.backend.common.models.*
 import com.finyou.fintrack.backend.repo.common.DbFinTransactionFilterRequest
 import com.finyou.fintrack.backend.repo.common.IRepoFinTransaction
 import kotlinx.coroutines.runBlocking
@@ -25,7 +22,7 @@ abstract class RepoFinTransactionSearchTest {
 
     @Test
     fun searchDealSide() {
-        val result = runBlocking { repo.search(DbFinTransactionFilterRequest(transactionType = searchTransactionType)) }
+        val result = runBlocking { repo.search(DbFinTransactionFilterRequest(filter = FilterModel(transactionType = searchTransactionType))) }
         assertEquals(true, result.isSuccess)
         val expected = listOf(initObjects[2], initObjects[4])
         assertEquals(expected.sortedBy { it.id.toString() }, result.result.sortedBy { it.id.toString() })
