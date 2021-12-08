@@ -49,7 +49,6 @@ class RepoFinTransactionInMemory(
     }
 
     private suspend fun save(item: FinTransactionModel): DbFinTransactionResponse {
-        println("save with contains ids = ${cache.map { it.key }}")
         val row = FinTransactionRow(item)
         if (row.id == null)
             return getDbFailedResponse(field = "id", message = "Id must not be null or blank")
@@ -98,7 +97,6 @@ class RepoFinTransactionInMemory(
     }
 
     override suspend fun search(rq: DbFinTransactionFilterRequest): DbFinTransactionsResponse {
-        println("cache contains ids = ${cache.map { it.key }}")
         val results = cache.asFlow()
             .filter {
                 if (rq.userId == UserIdModel.NONE) return@filter true

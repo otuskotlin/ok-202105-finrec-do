@@ -11,7 +11,7 @@ import io.ktor.server.testing.*
 
 class WsControllerTest : FunSpec({
     test("webSocket") {
-        withTestApplication({ module(testing = true) }) {
+        withTestApplication({ module() }) {
             handleWebSocketConversation("/ws") { incoming, outgoing ->
                 run {
                     val responseFrame = incoming.receive()

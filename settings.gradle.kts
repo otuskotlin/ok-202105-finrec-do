@@ -6,6 +6,7 @@ pluginManagement {
     val springBootVersion: String by settings
     val springDependencyVersion: String by settings
     val springPluginVersion: String by settings
+    val bmuschkoVersion: String by settings
 
     plugins {
         kotlin("jvm") version kotlinVersion
@@ -17,6 +18,9 @@ pluginManagement {
         id("org.springframework.boot") version springBootVersion
         id("io.spring.dependency-management") version springDependencyVersion
         kotlin("plugin.spring") version springPluginVersion
+
+        kotlin("plugin.allopen") version kotlinVersion
+        id("com.bmuschko.docker-java-application") version bmuschkoVersion
     }
 }
 

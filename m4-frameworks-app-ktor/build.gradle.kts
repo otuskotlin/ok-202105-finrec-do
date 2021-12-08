@@ -12,10 +12,28 @@ fun DependencyHandler.kotest(module: String, version: String? = kotestVersion): 
 plugins {
     application
     kotlin("jvm")
+    id("com.bmuschko.docker-java-application")
 }
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
+}
+
+docker {
+    javaApplication {
+        mainClassName.set(application.mainClass.get())
+        baseImage.set("adoptopenjdk/openjdk11:alpine-jre")
+        maintainer.set("(c) Otus")
+        ports.set(listOf(8080))
+        val imageName = project.name
+        images.set(
+            listOf(
+                "$imageName:${project.version}",
+                "$imageName:latest"
+            )
+        )
+        jvmArgs.set(listOf("-Xms256m", "-Xmx512m"))
+    }
 }
 
 dependencies {
@@ -40,8 +58,9 @@ dependencies {
     implementation(project(":m3-common"))
     implementation(project(":m3-transport-main-openapi"))
     implementation(project(":m3-transport-mapping-openapi"))
-    implementation(project(":m4-stubs"))
+    testImplementation(project(":m4-stubs"))
     implementation(project(":m5-cor-logics"))
+    implementation(project(":m7-repo-inmemory"))
 }
 
 tasks.withType<Test> {
