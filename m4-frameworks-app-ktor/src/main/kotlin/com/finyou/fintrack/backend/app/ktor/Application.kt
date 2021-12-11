@@ -13,8 +13,12 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.websocket.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+fun main(args: Array<String>) {
+    val appEnvironment = commandLineEnvironment(args).config.config("ktor.deployment")
+    embeddedServer(Netty,
+        port = appEnvironment.propertyOrNull("port")?.getString()?.toIntOrNull() ?: 8080,
+        host = appEnvironment.propertyOrNull("host")?.getString() ?: "127.0.0.1"
+    ) {
         module()
     }.start(wait = true)
 }
