@@ -50,17 +50,20 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     testImplementation(ktor("server-tests"))
+    testImplementation(ktor("server-test-host"))
 
     testImplementation(kotest("assertions-core"))
     testImplementation(kotest("property"))
     testImplementation(kotest("runner-junit5"))
 
+    testImplementation(project(":m4-stubs"))
+
     implementation(project(":m3-common"))
     implementation(project(":m3-transport-main-openapi"))
     implementation(project(":m3-transport-mapping-openapi"))
-    testImplementation(project(":m4-stubs"))
     implementation(project(":m5-cor-logics"))
     implementation(project(":m7-repo-inmemory"))
+    implementation(project(":m7-repo-postgresql"))
 }
 
 tasks.withType<Test> {

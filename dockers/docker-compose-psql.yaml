@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  psql:
+    image: postgres
+    container_name: postgresql
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: finyou
+      POSTGRES_USER: fintrack
+      POSTGRES_DB: fintrackdevdb
+
+volumes:
+  postgres-data:

@@ -30,10 +30,10 @@ abstract class RepoFinTransactionCreateTest {
             userId = UserIdModel(UUID.randomUUID().toString()),
             name = "create transaction",
             description = "create transaction description",
-            date = Instant.now().minusSeconds(50000L),
+            date = Instant.ofEpochMilli(Instant.now().minusSeconds(50000L).toEpochMilli()),
             transactionType = TypeModel.INCOME,
             amountCurrency = AmountCurrencyModel(
-                amount = 2000.toBigDecimal(),
+                amount = 2000.0.toBigDecimal(),
                 currency = "USD"
             ),
             permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)

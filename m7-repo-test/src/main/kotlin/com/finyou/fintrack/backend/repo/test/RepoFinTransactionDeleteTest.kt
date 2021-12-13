@@ -24,7 +24,7 @@ abstract class RepoFinTransactionDeleteTest {
 
     @Test
     fun deleteNotFound() {
-        val result = runBlocking { repo.read(DbFinTransactionIdRequest(notFoundId)) }
+        val result = runBlocking { repo.delete(DbFinTransactionIdRequest(notFoundId)) }
 
         assertEquals(false, result.isSuccess)
         assertEquals(null, result.result)

@@ -21,7 +21,7 @@ abstract class RepoFinTransactionSearchTest {
     }
 
     @Test
-    fun searchDealSide() {
+    fun searchTransactionType() {
         val result = runBlocking { repo.search(DbFinTransactionFilterRequest(filter = FilterModel(transactionType = searchTransactionType))) }
         assertEquals(true, result.isSuccess)
         val expected = listOf(initObjects[2], initObjects[4])

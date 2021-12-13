@@ -9,19 +9,10 @@ import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.websocket.*
 
-fun main(args: Array<String>) {
-    val appEnvironment = commandLineEnvironment(args).config.config("ktor.deployment")
-    embeddedServer(Netty,
-        port = appEnvironment.propertyOrNull("port")?.getString()?.toIntOrNull() ?: 8080,
-        host = appEnvironment.propertyOrNull("host")?.getString() ?: "127.0.0.1"
-    ) {
-        module()
-    }.start(wait = true)
-}
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module(config: AppKtorConfig = AppKtorConfig()) {
     install(DefaultHeaders)

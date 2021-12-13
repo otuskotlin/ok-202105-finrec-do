@@ -40,10 +40,10 @@ abstract class RepoFinTransactionUpdateTest {
             userId = UserIdModel(UUID.randomUUID().toString()),
             name = "update object",
             description = "update object description",
-            date = Instant.now().minusSeconds(50000L),
+            date = Instant.ofEpochMilli(Instant.now().minusSeconds(50000L).toEpochMilli()),
             transactionType = TypeModel.OUTCOME,
             amountCurrency = AmountCurrencyModel(
-                amount = 1000.toBigDecimal(),
+                amount = 1000.0.toBigDecimal(),
                 currency = "USD"
             ),
             permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)
@@ -54,10 +54,10 @@ abstract class RepoFinTransactionUpdateTest {
             userId = UserIdModel(UUID.randomUUID().toString()),
             name = "update object not found",
             description = "update object not found description",
-            date = Instant.now().minusSeconds(50000L),
+            date = Instant.ofEpochMilli(Instant.now().minusSeconds(50000L).toEpochMilli()),
             transactionType = TypeModel.OUTCOME,
             amountCurrency = AmountCurrencyModel(
-                amount = 1000.toBigDecimal(),
+                amount = 1000.0.toBigDecimal(),
                 currency = "USD"
             ),
             permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)

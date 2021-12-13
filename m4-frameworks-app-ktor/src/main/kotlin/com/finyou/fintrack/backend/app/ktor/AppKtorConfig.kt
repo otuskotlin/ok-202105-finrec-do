@@ -8,13 +8,13 @@ import com.finyou.fintrack.backend.common.context.ContextConfig
 import com.finyou.fintrack.backend.logic.FinTransactionCrud
 import com.finyou.fintrack.backend.repo.common.IRepoFinTransaction
 import com.finyou.fintrack.backend.repo.inmemory.RepoFinTransactionInMemory
-import java.time.Duration
+import com.finyou.fintrack.backend.repo.psql.RepoFinTransactionPSQL
 
 data class AppKtorConfig(
     val userSessions: MutableSet<KtorUserSession> = mutableSetOf<KtorUserSession>(),
     val objectMapper: ObjectMapper = jacksonObjectMapper(),
     val finTransactionRepoTest: IRepoFinTransaction = RepoFinTransactionInMemory(initObjects = listOf()),
-    val finTransactionRepoProd: IRepoFinTransaction = RepoFinTransactionInMemory(initObjects = listOf(), ttl = Duration.ofHours(1)),
+    val finTransactionRepoProd: IRepoFinTransaction = RepoFinTransactionPSQL(),
     val contextConfig: ContextConfig = ContextConfig(
         repoProd = finTransactionRepoProd,
         repoTest = finTransactionRepoTest,
