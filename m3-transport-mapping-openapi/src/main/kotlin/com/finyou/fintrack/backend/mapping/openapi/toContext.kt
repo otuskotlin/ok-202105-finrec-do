@@ -57,7 +57,7 @@ fun FtContext.setQuery(query: SearchTransactionRequest) = apply {
 
 private val SearchFilter.inner: FilterModel
     get() = FilterModel(
-        dateStart = dateStart?.let { Instant.parse(it) } ?: Instant.EPOCH,
+        dateStart = dateStart?.let { Instant.parse(it) } ?: Instant.MIN,
         dateEnd = dateEnd?.let { Instant.parse(it) } ?: Instant.MAX,
         amountFrom = amountFrom?.let { BigDecimal.valueOf(it) } ?: BigDecimal.ZERO,
         amountTo = amountTo?.let { BigDecimal.valueOf(it) } ?: BigDecimal.valueOf(Double.MAX_VALUE),
