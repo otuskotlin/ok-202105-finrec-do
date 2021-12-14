@@ -1,5 +1,6 @@
 package com.finyou.fintrack.backend.common.models
 
+import com.finyou.fintrack.backend.common.utils.dateToMillis
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -12,11 +13,7 @@ data class FilterModel(
 ) {
 
     val dateRange: LongRange
-        get() {
-            val dateStartLong = if (dateStart == Instant.MIN) Long.MIN_VALUE else dateStart.toEpochMilli()
-            val dateEndLong = if (dateEnd == Instant.MAX) Long.MAX_VALUE else dateEnd.toEpochMilli()
-            return dateStartLong..dateEndLong
-        }
+        get() = dateStart.dateToMillis..dateEnd.dateToMillis
 
     companion object {
         val NONE = FilterModel()
