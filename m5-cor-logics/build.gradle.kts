@@ -17,6 +17,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property:$kotestVersion")
     testImplementation ("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    testImplementation(project(":m7-repo-inmemory"))
 }
 
 tasks.withType<Test> {

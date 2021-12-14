@@ -12,13 +12,10 @@ import com.finyou.fintrack.backend.cor.common.handlers.worker
 internal fun ICorChainDsl<FtContext>.finStub(
     title: String,
     operation: FinTransactionOperation,
-    handleOperationStub: FtContext.() -> Unit
+    handleOperationStub: suspend FtContext.() -> Unit
 ) = chain {
     this.title = title
-    on {
-        println("on stub: $this")
-        status == CorStatus.RUNNING && stubCase != StubCaseModel.NONE
-    }
+    on { status == CorStatus.RUNNING && stubCase != StubCaseModel.NONE }
 
     worker {
         this.title = "Success stub for ${operation.name}"

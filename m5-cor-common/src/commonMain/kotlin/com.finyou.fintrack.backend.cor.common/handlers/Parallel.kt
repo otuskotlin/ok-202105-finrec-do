@@ -9,15 +9,15 @@ class CorParallelDsl<T>(
     override var title: String = "",
     override var description: String = "",
     private val workers: MutableList<ICorExecDsl<T>> = mutableListOf(),
-    private var blockOn: T.() -> Boolean = { true },
-    private var blockExcept: T.(Throwable) -> Unit = { }
+    private var blockOn: suspend T.() -> Boolean = { true },
+    private var blockExcept: suspend T.(Throwable) -> Unit = { }
 ) : ICorChainDsl<T> {
 
-    override fun on(function: T.() -> Boolean) {
+    override fun on(function: suspend T.() -> Boolean) {
         blockOn = function
     }
 
-    override fun except(function: T.(Throwable) -> Unit) {
+    override fun except(function: suspend T.(Throwable) -> Unit) {
         blockExcept = function
     }
 

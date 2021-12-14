@@ -2,28 +2,19 @@ package com.finyou.fintrack.backend.app.ktor
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.finyou.fintrack.backend.app.ktor.controllers.*
-import com.finyou.fintrack.backend.app.ktor.models.KtorUserSession
-import com.finyou.fintrack.backend.app.ktor.services.FinTransactionService
-import com.finyou.fintrack.backend.logic.FinTransactionCrud
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.websocket.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
-        module()
-    }.start(wait = true)
-}
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
-fun Application.module(testing: Boolean = false) {
+fun Application.module(config: AppKtorConfig = AppKtorConfig()) {
     install(DefaultHeaders)
     install(CallLogging)
     install(AutoHeadResponse)
@@ -47,10 +38,9 @@ fun Application.module(testing: Boolean = false) {
     }
     install(WebSockets)
 
-    val crud = FinTransactionCrud()
-    val service = FinTransactionService(crud)
-    val objectMapper = jacksonObjectMapper()
-    val wsUserSessions = mutableSetOf<KtorUserSession>()
+    val service = config.finTransactionService
+    val objectMapper = config.objectMapper
+    val wsUserSessions = config.userSessions
 
     routing {
         get("/") {

@@ -22,7 +22,7 @@ object StubTransactions {
             amount = 2000.toBigDecimal(),
             currency = "USD"
         ),
-        permissions = mutableSetOf(PermissionModel.READ, PermissionModel.UPDATE)
+        permissions = permissionsDefault
     )
     private val outcomeTransaction = FinTransactionModel(
         id = idModel,
@@ -38,11 +38,10 @@ object StubTransactions {
         permissions = permissionsDefault
     )
 
-    private val randomTransaction: FinTransactionModel
-        get() = if (Random.nextBoolean()) incomeTransaction else outcomeTransaction
-
-    fun getStub(model: (FinTransactionModel.() -> Unit)? = null) = randomTransaction.also { stub ->
-        model?.let { stub.apply(it) }
+    fun getStub(model: (FinTransactionModel.() -> Unit)? = null): FinTransactionModel {
+        return incomeTransaction.also { stub ->
+            model?.let { stub.apply(it) }
+        }
     }
 
     fun getStubs() = mutableListOf(

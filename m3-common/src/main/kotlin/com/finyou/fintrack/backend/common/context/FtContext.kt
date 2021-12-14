@@ -1,6 +1,8 @@
 package com.finyou.fintrack.backend.common.context
 
 import com.finyou.fintrack.backend.common.models.*
+import com.finyou.fintrack.backend.repo.common.DbFinTransactionFilterRequest
+import com.finyou.fintrack.backend.repo.common.IRepoFinTransaction
 
 data class FtContext(
     var onRequest: String = "",
@@ -18,6 +20,9 @@ data class FtContext(
     var operation: FinTransactionOperation = FinTransactionOperation.NONE,
 
     val userSession: IUserSession<*, *> = EmptySession,
+
+    var config: ContextConfig = ContextConfig(),
+    var finTransactionRepo: IRepoFinTransaction = IRepoFinTransaction.NONE,
 ) {
     fun addError(error: ErrorModel, failingStatus: Boolean = true) = apply {
         if (failingStatus) status = CorStatus.FAILING
@@ -27,4 +32,10 @@ data class FtContext(
     fun addError(error: Throwable, failingStatus: Boolean = true) = apply {
         addError(ErrorModel(message = error.message ?: "Error occurred"), failingStatus)
     }
+
+    val dbSearchFilter: DbFinTransactionFilterRequest
+        get() = searchFilter
+            .takeIf { it != FilterModel.NONE }
+            ?.let { DbFinTransactionFilterRequest(filter = it) }
+            ?: DbFinTransactionFilterRequest()
 }

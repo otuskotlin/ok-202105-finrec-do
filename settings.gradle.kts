@@ -6,6 +6,7 @@ pluginManagement {
     val springBootVersion: String by settings
     val springDependencyVersion: String by settings
     val springPluginVersion: String by settings
+    val bmuschkoVersion: String by settings
 
     plugins {
         kotlin("jvm") version kotlinVersion
@@ -17,6 +18,9 @@ pluginManagement {
         id("org.springframework.boot") version springBootVersion
         id("io.spring.dependency-management") version springDependencyVersion
         kotlin("plugin.spring") version springPluginVersion
+
+        kotlin("plugin.allopen") version kotlinVersion
+        id("com.bmuschko.docker-java-application") version bmuschkoVersion
     }
 }
 
@@ -34,3 +38,6 @@ include("m4-frameworks-app-serverless")
 include("m5-cor-common")
 include("m5-cor-logics")
 include("m5-validation")
+include("m7-repo-test")
+include("m7-repo-inmemory")
+include("m7-repo-postgresql")
