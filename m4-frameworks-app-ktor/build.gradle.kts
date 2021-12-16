@@ -46,6 +46,8 @@ dependencies {
     implementation(ktor("server-core"))
     implementation(ktor("jackson"))
     implementation(ktor("websockets"))
+    implementation(ktor("auth"))
+    implementation(ktor("auth-jwt"))
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 

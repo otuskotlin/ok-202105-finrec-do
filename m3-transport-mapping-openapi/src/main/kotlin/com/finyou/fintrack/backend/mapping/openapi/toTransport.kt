@@ -63,7 +63,7 @@ private val ErrorModel.transport: ApiError
 private val List<ErrorModel>.transport: List<ApiError>?
     get() = takeIf { it.isNotEmpty() }?.filter { it != ErrorModel.NONE }?.map { it.transport }
 
-private val FinTransactionModel.transport: ResultTransaction
+val FinTransactionModel.transport: ResultTransaction
     get() = ResultTransaction(
         userId = userId.takeIf { it != UserIdModel.NONE }?.id,
         name = name.takeIf { it.isNotBlank() },

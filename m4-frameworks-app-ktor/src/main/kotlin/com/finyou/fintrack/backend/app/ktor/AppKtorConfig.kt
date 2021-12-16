@@ -21,4 +21,5 @@ data class AppKtorConfig(
     ),
     val crud: FinTransactionCrud = FinTransactionCrud(contextConfig),
     val finTransactionService: FinTransactionService = FinTransactionService(crud),
+    val auth: KtorAuthConfig = KtorAuthConfig.TEST,
 )
