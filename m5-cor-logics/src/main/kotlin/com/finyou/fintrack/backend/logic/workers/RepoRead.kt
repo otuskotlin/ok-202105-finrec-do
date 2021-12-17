@@ -16,7 +16,7 @@ internal fun ICorChainDsl<FtContext>.repoRead(title: String) = worker {
         val result = finTransactionRepo.read(DbFinTransactionIdRequest(id = requestTransactionId))
         val resultValue = result.result
         if (result.isSuccess && resultValue != null) {
-            responseTransaction = resultValue
+            dbTransaction = resultValue
         } else {
             result.errors.forEach {
                 addError(it)

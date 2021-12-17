@@ -10,7 +10,8 @@ data class FinTransactionModel(
     var date: Instant = Instant.MIN,
     var transactionType: TypeModel = TypeModel.NONE,
     var amountCurrency: AmountCurrencyModel = AmountCurrencyModel.NONE,
-    var permissions: MutableSet<PermissionModel> = mutableSetOf()
+    var permissions: MutableSet<PermissionModel> = mutableSetOf(),
+    var principalRelations: Set<FinPrincipalRelations> = emptySet(),
 ) {
     companion object {
         val NONE = FinTransactionModel()

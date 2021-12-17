@@ -30,7 +30,9 @@ internal object FinDelete: ICorExec<FtContext> by chain<FtContext>({
     }
 
     finDeleteStub(title = "DELETE stubCase handling")
-
+    chainPermissions("Вычисление разрешений для пользователя")
+    repoRead(title = "Read object from DB")
+    accessValidation("Вычисление прав доступа")
     repoDelete(title = "Delete object from DB")
 
     chainFinishWorker(title = "Chain finishing")

@@ -18,7 +18,8 @@ class FinCrudTest : StringSpec ({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransaction = transaction,
-            operation = FinTransactionOperation.CREATE
+            operation = FinTransactionOperation.CREATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.create(context)
@@ -40,7 +41,8 @@ class FinCrudTest : StringSpec ({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransactionId = StubTransactions.idModel,
-            operation = FinTransactionOperation.READ
+            operation = FinTransactionOperation.READ,
+            principal = principalUser()
         )
         runBlocking {
             crud.read(context)
@@ -57,7 +59,8 @@ class FinCrudTest : StringSpec ({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransaction = transaction,
-            operation = FinTransactionOperation.UPDATE
+            operation = FinTransactionOperation.UPDATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.update(context)
@@ -80,7 +83,8 @@ class FinCrudTest : StringSpec ({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransactionId = transactionId,
-            operation = FinTransactionOperation.DELETE
+            operation = FinTransactionOperation.DELETE,
+            principal = principalUser()
         )
         runBlocking {
             crud.delete(context)
@@ -97,7 +101,8 @@ class FinCrudTest : StringSpec ({
             stubCase = StubCaseModel.SUCCESS,
             requestPage = PaginatedRequestModel(lastId = FinTransactionIdModel("123")),
             searchFilter = FilterModel(),
-            operation = FinTransactionOperation.SEARCH
+            operation = FinTransactionOperation.SEARCH,
+            principal = principalUser()
         )
         runBlocking {
             crud.search(context)

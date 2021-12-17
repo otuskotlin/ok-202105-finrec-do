@@ -2,6 +2,7 @@ package com.finyou.fintrack.backend.logic.workers
 
 import com.finyou.fintrack.backend.common.context.CorStatus
 import com.finyou.fintrack.backend.common.context.FtContext
+import com.finyou.fintrack.backend.common.models.FinTransactionModel
 import com.finyou.fintrack.backend.cor.common.cor.ICorChainDsl
 import com.finyou.fintrack.backend.cor.common.handlers.chain
 import com.finyou.fintrack.backend.cor.common.handlers.worker
@@ -17,6 +18,10 @@ internal fun ICorChainDsl<FtContext>.chainFinishWorker(title: String) = chain{
     worker {
         this.title = "Chain not success handler"
         on { status != CorStatus.SUCCESS }
-        handle { status = CorStatus.ERROR }
+        handle {
+            status = CorStatus.ERROR
+            responseTransaction = FinTransactionModel()
+            responseTransactions = mutableListOf()
+        }
     }
 }

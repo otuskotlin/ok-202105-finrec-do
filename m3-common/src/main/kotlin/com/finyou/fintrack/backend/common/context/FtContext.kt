@@ -23,6 +23,13 @@ data class FtContext(
 
     var config: ContextConfig = ContextConfig(),
     var finTransactionRepo: IRepoFinTransaction = IRepoFinTransaction.NONE,
+
+    var dbFilter: FilterModel = FilterModel.NONE,
+    var dbTransaction: FinTransactionModel = FinTransactionModel.NONE,
+
+    var principal: FinPrincipalModel = FinPrincipalModel.NONE,
+    val chainPermissions: MutableSet<FinUserPermissions> = mutableSetOf(),
+    var permitted: Boolean = false,
 ) {
     fun addError(error: ErrorModel, failingStatus: Boolean = true) = apply {
         if (failingStatus) status = CorStatus.FAILING
@@ -34,7 +41,7 @@ data class FtContext(
     }
 
     val dbSearchFilter: DbFinTransactionFilterRequest
-        get() = searchFilter
+        get() = dbFilter
             .takeIf { it != FilterModel.NONE }
             ?.let { DbFinTransactionFilterRequest(filter = it) }
             ?: DbFinTransactionFilterRequest()

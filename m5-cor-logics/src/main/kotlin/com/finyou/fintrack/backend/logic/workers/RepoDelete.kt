@@ -13,7 +13,7 @@ internal fun ICorChainDsl<FtContext>.repoDelete(title: String) = worker {
     on { status == CorStatus.RUNNING }
 
     handle {
-        val result = finTransactionRepo.delete(DbFinTransactionIdRequest(id = requestTransactionId))
+        val result = finTransactionRepo.delete(DbFinTransactionIdRequest(id = dbTransaction.id))
         val resultValue = result.result
         if (result.isSuccess && resultValue != null) {
             responseTransaction =  resultValue

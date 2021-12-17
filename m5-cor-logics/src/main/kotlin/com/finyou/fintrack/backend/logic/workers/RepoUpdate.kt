@@ -13,7 +13,7 @@ internal fun ICorChainDsl<FtContext>.repoUpdate(title: String) = worker {
     on { status == CorStatus.RUNNING }
 
     handle {
-        val result = finTransactionRepo.update(DbFinTransactionModelRequest(finTransaction = requestTransaction))
+        val result = finTransactionRepo.update(DbFinTransactionModelRequest(finTransaction = dbTransaction))
         val resultValue = result.result
         if (result.isSuccess && resultValue != null) {
             responseTransaction =  resultValue

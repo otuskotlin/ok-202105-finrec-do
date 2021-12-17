@@ -39,7 +39,7 @@ object StubTransactions {
     )
 
     fun getStub(model: (FinTransactionModel.() -> Unit)? = null): FinTransactionModel {
-        return incomeTransaction.also { stub ->
+        return incomeTransaction.copy().also { stub ->
             model?.let { stub.apply(it) }
         }
     }
