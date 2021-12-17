@@ -28,6 +28,7 @@ class FinCrudRepoTest : StringSpec({
             appMode = AppModeModel.TEST,
             requestTransaction = transaction,
             operation = FinTransactionOperation.CREATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.create(context)
@@ -58,7 +59,8 @@ class FinCrudRepoTest : StringSpec({
         val context = FtContext(
             appMode = AppModeModel.TEST,
             requestTransactionId = idModel,
-            operation = FinTransactionOperation.READ
+            operation = FinTransactionOperation.READ,
+            principal = principalUser()
         )
         runBlocking {
             crud.read(context)
@@ -90,7 +92,8 @@ class FinCrudRepoTest : StringSpec({
         val context = FtContext(
             appMode = AppModeModel.TEST,
             requestTransaction = updateTransaction,
-            operation = FinTransactionOperation.UPDATE
+            operation = FinTransactionOperation.UPDATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.update(context)
@@ -117,7 +120,8 @@ class FinCrudRepoTest : StringSpec({
         val context = FtContext(
             appMode = AppModeModel.TEST,
             requestTransactionId = idModel,
-            operation = FinTransactionOperation.DELETE
+            operation = FinTransactionOperation.DELETE,
+            principal = principalUser()
         )
         runBlocking {
             crud.delete(context)
@@ -159,7 +163,8 @@ class FinCrudRepoTest : StringSpec({
             appMode = AppModeModel.TEST,
             requestPage = PaginatedRequestModel(lastId = FinTransactionIdModel("123")),
             searchFilter = FilterModel(transactionType = TypeModel.INCOME),
-            operation = FinTransactionOperation.SEARCH
+            operation = FinTransactionOperation.SEARCH,
+            principal = principalUser()
         )
         runBlocking {
             crud.search(context)

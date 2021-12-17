@@ -5,11 +5,12 @@ import java.math.BigDecimal
 import java.time.Instant
 
 data class FilterModel(
-    val dateStart: Instant = Instant.MIN,
-    val dateEnd: Instant = Instant.MAX,
-    val amountFrom: BigDecimal = BigDecimal.ZERO,
-    val amountTo: BigDecimal = BigDecimal.valueOf(Double.MAX_VALUE),
-    val transactionType: TypeModel = TypeModel.NONE,
+    var dateStart: Instant = Instant.MIN,
+    var dateEnd: Instant = Instant.MAX,
+    var amountFrom: BigDecimal = BigDecimal.ZERO,
+    var amountTo: BigDecimal = BigDecimal.valueOf(Double.MAX_VALUE),
+    var transactionType: TypeModel = TypeModel.NONE,
+    var userId: UserIdModel = UserIdModel.NONE
 ) {
 
     val dateRange: LongRange

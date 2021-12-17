@@ -1,9 +1,11 @@
 package com.finyou.fintrack.backend.logic.chains
 
+import com.finyou.fintrack.backend.common.context.CorStatus
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.FinTransactionOperation
 import com.finyou.fintrack.backend.cor.common.cor.ICorExec
 import com.finyou.fintrack.backend.cor.common.handlers.chain
+import com.finyou.fintrack.backend.cor.common.handlers.worker
 import com.finyou.fintrack.backend.logic.chains.helpers.onValidationErrorHandle
 import com.finyou.fintrack.backend.logic.chains.stubs.finCreateStub
 import com.finyou.fintrack.backend.logic.workers.*
@@ -51,7 +53,15 @@ internal object FinCreate: ICorExec<FtContext> by chain<FtContext>({
 
     finCreateStub(title = "CREATE stubCase handling")
 
+    chainPermissions("Вычисление разрешений для пользователя")
+    worker {
+        title = "Инициализация dbAd"
+        on { status == CorStatus.RUNNING }
+        handle { dbTransaction.userId = principal.id }
+    }
+    accessValidation("Вычисление прав доступа")
+    prepareAdForSaving("Подготовка объекта для сохранения")
     repoCreate(title = "Save object to DB")
-
+    frontPermissions(title = "Вычисление пользовательских разрешений для фронтенда")
     chainFinishWorker(title = "Chain finishing")
 }).build()

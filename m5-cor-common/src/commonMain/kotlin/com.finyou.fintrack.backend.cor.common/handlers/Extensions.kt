@@ -22,7 +22,7 @@ fun <T> ICorChainDsl<T>.worker(function: CorWorkerDsl<T>.() -> Unit) {
 }
 
 @CorDslMarker
-fun <T> ICorChainDsl<T>.worker(title: String, description: String, function: suspend  T.() -> Unit) {
+fun <T> ICorChainDsl<T>.worker(title: String, description: String = "", function: suspend  T.() -> Unit) {
     add(
         CorWorkerDsl<T>(
             title = title,

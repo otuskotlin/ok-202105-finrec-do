@@ -23,7 +23,8 @@ class FinCrudValidationTest : StringSpec({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransaction = transaction,
-            operation = FinTransactionOperation.CREATE
+            operation = FinTransactionOperation.CREATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.create(context)
@@ -38,7 +39,8 @@ class FinCrudValidationTest : StringSpec({
         val context = FtContext(
             stubCase = StubCaseModel.SUCCESS,
             requestTransaction = transaction,
-            operation = FinTransactionOperation.CREATE
+            operation = FinTransactionOperation.CREATE,
+            principal = principalUser()
         )
         runBlocking {
             crud.create(context)

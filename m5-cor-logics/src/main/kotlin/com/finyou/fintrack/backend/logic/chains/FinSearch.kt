@@ -1,9 +1,12 @@
 package com.finyou.fintrack.backend.logic.chains
 
+import com.finyou.fintrack.backend.common.context.CorStatus
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.FinTransactionOperation
+import com.finyou.fintrack.backend.common.models.UserIdModel
 import com.finyou.fintrack.backend.cor.common.cor.ICorExec
 import com.finyou.fintrack.backend.cor.common.handlers.chain
+import com.finyou.fintrack.backend.cor.common.handlers.worker
 import com.finyou.fintrack.backend.logic.chains.helpers.onValidationErrorHandle
 import com.finyou.fintrack.backend.logic.chains.stubs.finSearchStub
 import com.finyou.fintrack.backend.logic.workers.*
@@ -31,6 +34,15 @@ internal object FinSearch: ICorExec<FtContext> by chain<FtContext>({
 
     finSearchStub(title = "SEARCH stubCase handling")
 
+    chainPermissions("Вычисление разрешений для пользователя")
+    chain {
+        title = "Подготовка поискового запроса"
+        description = "Добавление ограничений в поисковый запрос согласно правам доступа и др. политикам"
+        on { status == CorStatus.RUNNING }
+        worker("Копируем все поля бизнес-поиска") {
+            dbFilter = searchFilter.copy(userId = principal.id)
+        }
+    }
     repoSearch(title = "Search objects in DB")
 
     chainFinishWorker(title = "Chain finishing")

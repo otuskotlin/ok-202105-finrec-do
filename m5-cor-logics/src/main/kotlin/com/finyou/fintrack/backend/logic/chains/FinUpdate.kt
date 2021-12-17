@@ -1,9 +1,12 @@
 package com.finyou.fintrack.backend.logic.chains
 
+import com.finyou.fintrack.backend.common.context.CorStatus
 import com.finyou.fintrack.backend.common.context.FtContext
+import com.finyou.fintrack.backend.common.models.ErrorModel
 import com.finyou.fintrack.backend.common.models.FinTransactionOperation
 import com.finyou.fintrack.backend.cor.common.cor.ICorExec
 import com.finyou.fintrack.backend.cor.common.handlers.chain
+import com.finyou.fintrack.backend.cor.common.handlers.worker
 import com.finyou.fintrack.backend.logic.chains.helpers.onValidationErrorHandle
 import com.finyou.fintrack.backend.logic.chains.stubs.finUpdateStub
 import com.finyou.fintrack.backend.logic.workers.*
@@ -30,7 +33,11 @@ internal object FinUpdate: ICorExec<FtContext> by chain<FtContext>({
     }
 
     finUpdateStub(title = "UPDATE stubCase handling")
-
+    chainPermissions("Вычисление разрешений для пользователя")
+    worker(title = "инициализируем requestAdId") { requestTransactionId = requestTransaction.id }
+    repoRead(title = "Read object from DB")
+    accessValidation("Вычисление прав доступа")
+    prepareAdForSaving("Подготовка объекта для сохранения")
     repoUpdate(title = "Update previously saved object in DB")
 
     chainFinishWorker(title = "Chain finishing")

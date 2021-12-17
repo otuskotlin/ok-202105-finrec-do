@@ -2,6 +2,7 @@ package com.finyou.fintrack.backend.logic.workers
 
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.AppModeModel
+import com.finyou.fintrack.backend.common.models.FinUserGroup
 import com.finyou.fintrack.backend.common.models.StubCaseModel
 import com.finyou.fintrack.backend.cor.common.cor.ICorChainDsl
 import com.finyou.fintrack.backend.cor.common.handlers.worker
@@ -15,6 +16,10 @@ internal fun ICorChainDsl<FtContext>.chooseDb(title: String) = worker {
     """.trimIndent()
 
     handle {
+        if (principal.groups.contains(FinUserGroup.TEST)) {
+            finTransactionRepo = config.repoTest
+            return@handle
+        }
         finTransactionRepo = when(appMode) {
             AppModeModel.PROD -> config.repoProd
             AppModeModel.TEST -> config.repoTest
