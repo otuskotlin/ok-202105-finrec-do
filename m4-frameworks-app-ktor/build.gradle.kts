@@ -49,8 +49,6 @@ dependencies {
     implementation(ktor("auth"))
     implementation(ktor("auth-jwt"))
 
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
-
     testImplementation(ktor("server-tests"))
     testImplementation(ktor("server-test-host"))
 
@@ -66,6 +64,7 @@ dependencies {
     implementation(project(":m5-cor-logics"))
     implementation(project(":m7-repo-inmemory"))
     implementation(project(":m7-repo-postgresql"))
+    implementation(project(":m9-logging"))
 }
 
 tasks.withType<Test> {

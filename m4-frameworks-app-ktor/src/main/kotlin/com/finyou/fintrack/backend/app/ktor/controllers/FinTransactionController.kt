@@ -3,6 +3,7 @@ package com.finyou.fintrack.backend.app.ktor.controllers
 import com.finyou.fintrack.backend.app.ktor.mappers.toModel
 import com.finyou.fintrack.backend.app.ktor.services.FinTransactionService
 import com.finyou.fintrack.backend.common.context.FtContext
+import com.finyou.fintrack.backend.logging.ftLogger
 import com.finyou.fintrack.openapi.models.*
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -15,25 +16,36 @@ suspend fun ApplicationCall.init(service: FinTransactionService) {
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.init(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as InitTransactionResponse
+
+    val logger = ftLogger(ApplicationCall::init::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.init(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as InitTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
+
 
 suspend fun ApplicationCall.createFinTransaction(service: FinTransactionService) {
     val request = receive<CreateTransactionRequest>()
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.create(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as CreateTransactionResponse
+
+    val logger = ftLogger(ApplicationCall::createFinTransaction::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.create(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as CreateTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
 
 suspend fun ApplicationCall.readFinTransaction(service: FinTransactionService) {
@@ -41,12 +53,16 @@ suspend fun ApplicationCall.readFinTransaction(service: FinTransactionService) {
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.read(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as CreateTransactionResponse
+    val logger = ftLogger(ApplicationCall::readFinTransaction::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.read(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as CreateTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
 
 suspend fun ApplicationCall.updateFinTransaction(service: FinTransactionService) {
@@ -54,12 +70,17 @@ suspend fun ApplicationCall.updateFinTransaction(service: FinTransactionService)
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.update(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as UpdateTransactionResponse
+
+    val logger = ftLogger(ApplicationCall::updateFinTransaction::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.update(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as UpdateTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
 
 suspend fun ApplicationCall.deleteFinTransaction(service: FinTransactionService) {
@@ -67,12 +88,17 @@ suspend fun ApplicationCall.deleteFinTransaction(service: FinTransactionService)
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.delete(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as DeleteTransactionResponse
+
+    val logger = ftLogger(ApplicationCall::deleteFinTransaction::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.delete(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as DeleteTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
 
 suspend fun ApplicationCall.searchFinTransaction(service: FinTransactionService) {
@@ -80,10 +106,15 @@ suspend fun ApplicationCall.searchFinTransaction(service: FinTransactionService)
     val context = FtContext(
         principal = principal<JWTPrincipal>().toModel()
     )
-    val response = try {
-        service.search(context, request)
-    } catch (e: Throwable) {
-        service.errorAd(context, e) as SearchTransactionResponse
+
+    val logger = ftLogger(ApplicationCall::searchFinTransaction::class.java)
+
+    logger.doWithLogging {
+        val response = try {
+            service.search(context, request)
+        } catch (e: Throwable) {
+            service.errorAd(context, e) as SearchTransactionResponse
+        }
+        respond(response)
     }
-    respond(response)
 }
