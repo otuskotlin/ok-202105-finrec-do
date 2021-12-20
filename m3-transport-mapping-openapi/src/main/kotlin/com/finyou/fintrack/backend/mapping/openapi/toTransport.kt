@@ -2,8 +2,11 @@ package com.finyou.fintrack.backend.mapping.openapi
 
 import com.finyou.fintrack.backend.common.context.FtContext
 import com.finyou.fintrack.backend.common.models.*
+import com.finyou.fintrack.backend.transport.openapi.CommonLogModel
+import com.finyou.fintrack.backend.transport.openapi.FtLogModel
 import com.finyou.fintrack.openapi.models.*
 import java.time.Instant
+import java.util.*
 
 fun FtContext.toInitResponse() = InitTransactionResponse(
     requestId = onRequest,
@@ -54,6 +57,19 @@ fun FtContext.toSearchResponse() = SearchTransactionResponse(
     pagination = responsePage.takeIf { it != PaginatedResponseModel.NONE }?.transport
 )
 
+fun FtContext.toLog(logId: String) = CommonLogModel(
+    messageId = UUID.randomUUID().toString(),
+    messageTime = Instant.now().toString(),
+    logId = logId,
+    ftLog = FtLogModel(
+        requestFinTransactionId = requestTransactionId.takeIf { it != FinTransactionIdModel.NONE }?.toString(),
+        requestFinTransaction = requestTransaction.takeIf { it != FinTransactionModel.NONE }?.transport,
+        responseFinTransaction = responseTransaction.takeIf { it != FinTransactionModel.NONE }?.transport,
+        responseFinTransactions = responseTransactions.takeIf { it.isNotEmpty() }?.map { it.transport }
+    ),
+    errors = errors.takeIf { it.isNotEmpty() }?.map { it.transport }
+)
+
 private val ErrorModel.transport: ApiError
     get() = ApiError(
         message = message.takeIf { it.isNotBlank() },
@@ -88,6 +104,7 @@ private val PermissionModel.transport: TransactionPermission
         PermissionModel.READ -> TransactionPermission.READ
         PermissionModel.UPDATE -> TransactionPermission.UPDATE
         PermissionModel.DELETE -> TransactionPermission.DELETE
+        PermissionModel.NONE -> TransactionPermission.READ
     }
 
 private val PaginatedResponseModel.transport: PaginatedResponse
