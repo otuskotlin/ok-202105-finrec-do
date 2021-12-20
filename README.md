@@ -43,9 +43,20 @@ FinTrack - приложение для учета и мониторинга ли
 4. Yearly
 # Структура проекта
 ## Транспортные модели, API
+1. [specs](specs) - OpenAPI specification
+2. [m3-transport-main-openapi](m3-transport-main-openapi) - transport models generation from OpenAPI specification
+3. [m3-transport-mapping-openapi](m3-transport-mapping-openapi) - mapping OpenAPI transport  OpenAPI транспортных моделей во внутренние модели
 
 ## Фреймворки и транспорты
+1. [m4-frameworks-app-ktor](m4-frameworks-app-ktor) - Ktor application
 
 ## Модули бизнес-логики
+1. [m5-cor-common](m5-cor-common) - Library to implement Chain of Responsibility pattern in logic layer
+2. [m5-cor-logics](m5-cor-logics) - App business logic
+3. [m5-validation](m5-validation) - App validation logic
+4. [m4-stubs](m4-stubs) - Stubs for testing
 
 ## Хранение, репозитории, базы данных
+1. [m7-repo-test](m7-repo-test) - Basic tests for repositories testing
+2. [m7-repo-inmemory](m7-repo-inmemory) - Inmemory repository based on EhCache for testing
+3. [m7-repo-postgresql](m7-repo-postgresql) - PostgreSQL repository
