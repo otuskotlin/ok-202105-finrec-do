@@ -14,7 +14,9 @@ internal fun ICorChainDsl<FtContext>.repoSearch(title: String) = worker {
     on { status == CorStatus.RUNNING }
 
     handle {
-        val result = finTransactionRepo.search(dbSearchFilter)
+        val result = finTransactionRepo.search(dbSearchFilter.copy (
+            userId = principal.id
+        ))
         if (result.isSuccess) {
             responseTransactions = result.result.toMutableList()
         } else {

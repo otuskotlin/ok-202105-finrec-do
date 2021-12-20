@@ -61,7 +61,7 @@ internal object FinCreate: ICorExec<FtContext> by chain<FtContext>({
     }
     accessValidation("Вычисление прав доступа")
     prepareAdForSaving("Подготовка объекта для сохранения")
-    repoCreate(title = "Save object to DB")
     frontPermissions(title = "Вычисление пользовательских разрешений для фронтенда")
+    repoCreate(title = "Save object to DB")
     chainFinishWorker(title = "Chain finishing")
 }).build()
