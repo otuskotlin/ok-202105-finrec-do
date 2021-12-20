@@ -26,21 +26,7 @@ FinTrack - приложение для учета и мониторинга ли
 ### Enum OperationType
 1. Income
 2. Outcome
-### Описание сущности reg_transaction_setting
-1. RegularityType (enum)
-2. Day (for Daily type can be omitted)
-3. Time (optional)
-4. TransactionInfo
-    1. Name
-    2. Description (optional)
-    3. OperationType (enum)
-    4. Amount
-    5. Currency
-### Enum RegularityType
-1. Daily
-2. Weekly
-3. Monthly
-4. Yearly
+
 # Структура проекта
 ## Транспортные модели, API
 1. [specs](specs) - OpenAPI specification
